@@ -1,0 +1,31 @@
+# Python
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+*.sqlite3
+
+# Django
+db.sqlite3
+.env
+.env.*
+
+# VS Code & IDEs
+.vscode/
+*.code-workspace
+.idea/
+
+# Logs
+*.log
+
+# Migrations (optional, if auto-generated)
+**/migrations/*.py
+!**/migrations/__init__.py
+
+# Byte-compiled and cache
+*.py[cod]
+*.so
+
+# Static files (if collected separately)
+staticfiles/
+media/
