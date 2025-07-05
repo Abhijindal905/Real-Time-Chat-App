@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Reg from "./pages/Register.jsx";
+import Register from "./pages/Register.jsx";
 import Login from "./pages/Login.jsx";
 import Header from "./Components/Header.jsx";
 
@@ -8,7 +8,7 @@ function App() {
     <Router>
       <Header />
       <Routes>
-        <Route path="/register" element={<Reg />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
       </Routes>
     </Router>

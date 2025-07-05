@@ -1,4 +1,4 @@
-function Reg() {
+function Register() {
   return (
     <div className="container grid grid-cols-6 gap-2 shadow-lg md:p-2 rounded-lg md:w-auto md:h-[600px]">
       <div className="md:col-span-2 col-span-6 bg-[#40b299] rounded-lg">
@@ -41,4 +41,4 @@ function Reg() {
     </div>
   );
 }
-export default Reg;
+export default Register;
