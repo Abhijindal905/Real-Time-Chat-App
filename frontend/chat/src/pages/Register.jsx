@@ -1,12 +1,13 @@
-function Reg() {
+function Register() {
   return (
-    <div className="w-full grid grid-cols-6 gap-2 shadow-lg md:p-2 rounded-lg md:w-auto md:h-[600px]">
-      <div className="md:col-span-2 col-span-6 bg-[#54c6ad] rounded-lg">
+    <div className="md:m-4 m-2 border border-[#40b299] grid grid-cols-6 gap-2 shadow-lg md:p-2 rounded-lg md:w-auto md:h-[600px]">
+      <div className="md:col-span-2 col-span-6 bg-[#40b299] rounded-lg">
         <div className="h-full w-full mx-auto my-auto text-center flex flex-col items-center justify-center gap-4 p-8">
           <h1 className="text-4xl text-white font-bold">Welcome Back!</h1>
-          <p className="text-black font-bold">
-            To Real Time Chat Application
+          <p className="text-white font-bold text-4xl">
+            Gupshup
           </p>
+          <img src="/src/images/talking-icon.svg" alt="logo-icon" className="w-full" />
         </div>
       </div>
       <div className="md:col-span-4 col-span-6 flex flex-col items-center justify-center p-8 space-y-4">
@@ -41,4 +42,4 @@ function Reg() {
     </div>
   );
 }
-export default Reg;
+export default Register;
