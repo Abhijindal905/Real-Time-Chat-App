@@ -15,16 +15,22 @@ function Reg() {
           <input
             type="text"
             placeholder="Username"
+            id="username"
+            name="username"
             className="border border-gray-300 p-2 rounded-md"
           />
           <input
             type="email"
             placeholder="Email"
+            id="email"
+            name="email"
             className="border border-gray-300 p-2 rounded-md"
           />
           <input
             type="password"
             placeholder="Password"
+            id="password"
+            name="password"
             className="border border-gray-300 p-2 rounded-md"
           />
           <button className="bg-[#40b299] text-white px-6 py-2 rounded-full hover:bg-[#369f85] transition duration-300 cursor-pointer mx-auto">
