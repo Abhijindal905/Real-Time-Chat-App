@@ -3,7 +3,8 @@ import React from "react";
 function Header() {
   return (
     <header className="bg-green-100 shadow-md px-6 py-6">
-      <div className="flex justify-between items-center">
+      <
+        div className="flex justify-between items-center">
         <div className="flex items-center gap-2">
           <img src="/src/images/talking-icon.svg" alt="logo-icon" className="w-10" />
           <h2 className="text-2xl font-bold text-gray-800">Gupshup</h2>

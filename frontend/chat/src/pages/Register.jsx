@@ -1,7 +1,7 @@
 function Reg() {
   return (
-    <div className="container grid grid-cols-6 gap-2 shadow-lg md:p-2 rounded-lg md:w-auto md:h-[600px]">
-      <div className="md:col-span-2 col-span-6 bg-[#40b299] rounded-lg">
+    <div className="w-full grid grid-cols-6 gap-2 shadow-lg md:p-2 rounded-lg md:w-auto md:h-[600px]">
+      <div className="md:col-span-2 col-span-6 bg-[#54c6ad] rounded-lg">
         <div className="h-full w-full mx-auto my-auto text-center flex flex-col items-center justify-center gap-4 p-8">
           <h1 className="text-4xl text-white font-bold">Welcome Back!</h1>
           <p className="text-black font-bold">
