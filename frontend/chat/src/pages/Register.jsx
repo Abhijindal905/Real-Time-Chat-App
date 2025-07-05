@@ -1,20 +1,16 @@
-function Reg(params) {
+function Reg() {
   return (
     <div className="container grid grid-cols-6 gap-2 shadow-lg md:p-2 rounded-lg md:w-auto md:h-[600px]">
       <div className="md:col-span-2 col-span-6 bg-[#40b299] rounded-lg">
         <div className="h-full w-full mx-auto my-auto text-center flex flex-col items-center justify-center gap-4 p-8">
           <h1 className="text-4xl text-white font-bold">Welcome Back!</h1>
-          <p className="text-white">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore, ea.
+          <p className="text-black font-bold">
+            To Real Time Chat Application
           </p>
-          <button className="bg-white text-[#40b299] px-6 py-2 rounded-full hover:bg-gray-200 transition duration-300 cursor-pointer">
-            Sign In
-          </button>
         </div>
       </div>
       <div className="md:col-span-4 col-span-6 flex flex-col items-center justify-center p-8 space-y-4">
         <h2 className="text-[#40b299] text-3xl font-bold">Create an Account</h2>
-        <span>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</span>
         <form className="flex flex-col gap-4 mt-4 md:w-[400px] h-auto w-full">
           <input
             type="text"
