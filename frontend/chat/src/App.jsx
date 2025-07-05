@@ -1,9 +1,17 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Reg from "./pages/Register.jsx";
+import Login from "./pages/Login.jsx";
+import Header from "./Components/Header.jsx";
+
 function App() {
   return (
-    <>
-      <Reg />
-    </>
+    <Router>
+      <Header />
+      <Routes>
+        <Route path="/register" element={<Reg />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </Router>
   );
 }
 
