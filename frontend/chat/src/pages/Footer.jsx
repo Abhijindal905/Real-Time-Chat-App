@@ -10,7 +10,7 @@ function Footer() {
             <h2 className="text-3xl font-bold">Gupshup</h2>
           </div>
           <p className="text-base text-gray-400">
-            Skip the search Land your Dream chat App with verifyied from gove of India
+            Skip the search Land your Dream chat App with verifyied from govt of India
           </p>
         </div>
         <div>
