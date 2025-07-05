@@ -5,6 +5,9 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import IsAuthenticated
+from .models import *
 # Create your views here.
 @api_view(['POST'])
 def register(request):
@@ -45,5 +48,26 @@ def login(request):
         'access': str(refresh.access_token),
         'message': 'Login Successfully'
     }, status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def create_room(request):
+    room_name = request.data.get("room_name")
+
+    if not room_name:
+        return Response({"message" : "Room name is required"}, status=status.HTTP_400_BAD_REQUEST)
+    
+    if ChatRoom.objects.filter(name=room_name).exists():
+        return Response({"message": "Already exists"}, status=status.HTTP_400_BAD_REQUEST)
+    
+    room = ChatRoom.objects.create(name=room_name)
+    return Response({'message': 'Created Successfully','id': room.id, 'name': room.name}, status=status.HTTP_201_CREATED)
+
+
+@api_view(['GET'])
+def list_room(request):
+    rooms = ChatRoom.objects.all().values('id', 'name')
+    return Response({'rooms': rooms})
 
 
