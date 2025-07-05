@@ -1,18 +1,30 @@
 import React, { useState } from "react";
 
 function Login() {
-  let [username, setUsername] = useState("");
-  let [password, setPassword] = useState("");
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+  });
 
   const handleLogin = (e) => {
     e.preventDefault();
 
+    const { username, password } = formData;
+
     if (!username || !password) {
-      alert("......");
+      alert("Please fill all fields.");
       return;
     }
 
-    console.log("Logging in with:", { username, password });
+    console.log("Logging in with:", formData);
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   return (
@@ -26,19 +38,22 @@ function Login() {
         </h2>
 
         <input
+          name="username"
           className="mb-5 p-2 border border-black rounded-md text-[16px] hover:shadow-2xl"
           type="text"
-          placeholder="enter username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          placeholder="Enter username"
+          value={formData.username}
+          onChange={handleChange}
           required
         />
 
         <input
+          name="password"
           className="mb-5 p-2 border border-black rounded-md text-[16px] hover:shadow-2xl"
           type="password"
-          placeholder="password"
-          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
+          value={formData.password}
+          onChange={handleChange}
           required
         />
 
@@ -50,18 +65,16 @@ function Login() {
         </button>
       </form>
 
-     
       <div className="text-sm text-center mt-6">
         <a href="#" className="text-blue-600 hover:underline">
           Forgot password?
         </a>
         <br />
-
-       <p>
-        Don't have Acount ? 
-         <a href="/register" className="text-blue-600 hover:underline ">
-          Sign up
-        </a>
+        <p>
+          Don't have an account?{" "}
+          <a href="/register" className="text-blue-600 hover:underline">
+            Sign up
+          </a>
         </p>
       </div>
     </div>
