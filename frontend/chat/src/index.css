@@ -1,1 +1,7 @@
 @import "tailwindcss";
+body {
+  min-height: 100vh;
+}
+#root {
+  @apply bg-[#f0f4f4] min-h-screen flex items-center justify-center;
+}
