@@ -1,4 +1,6 @@
+import { useNavigate } from "react-router-dom";
 function Register() {
+  const navigate = useNavigate();
   return (
     <div className="md:m-4 m-2 border border-[#40b299] grid grid-cols-6 gap-2 shadow-lg md:p-2 rounded-lg md:w-auto">
       <div className="md:col-span-2 col-span-6 bg-[#40b299] rounded-lg">
@@ -38,6 +40,12 @@ function Register() {
             Register
           </button>
         </form>
+        <div className="flex gap-4 m-2 items-center border border-gray-300 p-2 rounded-md"> 
+            <p>Already have Account?</p>
+            <button onClick={() => navigate('/login')} className="bg-[#40b299] text-white px-6 py-2 rounded-full hover:bg-[#369f85] transition duration-300 cursor-pointer mx-auto">
+            Login
+          </button>
+          </div>
       </div>
     </div>
   );

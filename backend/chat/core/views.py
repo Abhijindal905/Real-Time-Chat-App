@@ -33,9 +33,6 @@ def login(request):
     username = request.data.get('username')
     password = request.data.get('password')
 
-    print("username : ", username)
-    print("password", password)
-
     if not username or not password:
         return Response({'error': 'All Fields are required'}, status=status.HTTP_400_BAD_REQUEST)
     
@@ -49,7 +46,8 @@ def login(request):
     return Response({
         'refresh': str(refresh),
         'access': str(refresh.access_token),
-        'message': 'Login Successfully'
+        'message': 'Login Successfully',
+        'username': user.username
     }, status=status.HTTP_200_OK)
 
 

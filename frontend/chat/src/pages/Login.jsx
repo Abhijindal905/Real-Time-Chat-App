@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom'
 
 function Login() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -13,7 +15,7 @@ function Login() {
       ...prev,
       [name]: value,
     }));
-  };
+  };  
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -22,9 +24,15 @@ function Login() {
         formData
       );
 
-      console.log("Login successful:", res.data);
-
-      alert("Login successful!");
+      if (res.data?.access && res.data?.refresh) {
+        localStorage.setItem("refresh", res.data.refresh);
+        localStorage.setItem("access", res.data.access);
+        localStorage.setItem("username", res.data?.username);
+        alert("Login Successfully")
+        navigate("/dashboard");
+      } else {
+        alert("Invalid response from server.");
+      }
 
     } catch (error) {
       console.error("Login failed:", error.response?.data || error.message);
