@@ -1,23 +1,11 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 function Login() {
   const [formData, setFormData] = useState({
     username: "",
     password: "",
   });
-
-  const handleLogin = (e) => {
-    e.preventDefault();
-
-    const { username, password } = formData;
-
-    if (!username || !password) {
-      alert("Please fill all fields.");
-      return;
-    }
-
-    console.log("Logging in with:", formData);
-  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,11 +15,28 @@ function Login() {
     }));
   };
 
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post("http://127.0.0.1:8000/api/login/", 
+        formData
+      );
+
+      console.log("Login successful:", res.data);
+
+      alert("Login successful!");
+
+    } catch (error) {
+      console.error("Login failed:", error.response?.data || error.message);
+      alert("Invalid username or password.");
+    }
+  };
+
   return (
-    <div className="h-screen flex flex-col justify-center items-center">
+    <div className="h-screen flex flex-col justify-center items-center bg-gray-50">
       <form
         onSubmit={handleLogin}
-        className="h-[400px] w-[400px] border-2 border-black p-10 rounded-xl flex flex-col gap-4 hover:shadow-2xl"
+        className="w-[400px] border-2 border-black p-10 rounded-xl flex flex-col gap-4 hover:shadow-2xl bg-white"
       >
         <h2 className="mt-2 text-black text-center mb-5 text-[30px] font-bold">
           Login
@@ -39,7 +44,7 @@ function Login() {
 
         <input
           name="username"
-          className="mb-5 p-2 border border-black rounded-md text-[16px] hover:shadow-2xl"
+          className="mb-5 p-2 border border-black rounded-md text-[16px] hover:shadow"
           type="text"
           placeholder="Enter username"
           value={formData.username}
@@ -49,7 +54,7 @@ function Login() {
 
         <input
           name="password"
-          className="mb-5 p-2 border border-black rounded-md text-[16px] hover:shadow-2xl"
+          className="mb-5 p-2 border border-black rounded-md text-[16px] hover:shadow"
           type="password"
           placeholder="Password"
           value={formData.password}
@@ -66,13 +71,13 @@ function Login() {
       </form>
 
       <div className="text-sm text-center mt-6">
-        <a href="#" className="text-blue-600 hover:underline">
+        <a href="#" className="text-lg text-blue-600 hover:underline">
           Forgot password?
         </a>
         <br />
         <p>
           Don't have an account?{" "}
-          <a href="/register" className="text-blue-600 hover:underline">
+          <a href="/register" className="text-xl text-blue-600 hover:underline">
             Sign up
           </a>
         </p>
