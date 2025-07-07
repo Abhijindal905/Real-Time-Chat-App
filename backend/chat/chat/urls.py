@@ -25,12 +25,5 @@ urlpatterns = [
 
     # API endpoints
     path('api/', include('core.urls')),  # your backend API routes
-
-    # Catch-all route to serve React frontend (index.html)
-    re_path(r'^(?!api/).*$', TemplateView.as_view(template_name="index.html")),
 ]
-
-# Serve media files (optional)
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
