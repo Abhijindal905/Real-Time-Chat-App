@@ -109,7 +109,7 @@ function Login() {
           <div className="flex flex-col sm:flex-row gap-2  justify-between items-center border border-gray-300 p-2 rounded-md mt-4 w-full max-w-md">
             <p className="text-sm sm:text-base">New here?</p>
             <button
-              onClick={() => navigate("/register")}
+              onClick={() => navigate("/")}
               className="bg-[#40b299] text-white px-6 py-2 rounded-full hover:bg-[#369f85] transition w-full sm:w-auto"
             >
               Register
