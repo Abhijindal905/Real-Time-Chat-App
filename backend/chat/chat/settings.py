@@ -43,7 +43,7 @@ ROOT_URLCONF = 'chat.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, '../../frontend/chat/build')],  # adjust if CRA build
+        'DIRS': [os.path.join(BASE_DIR, '../../../frontend/chat/build')],  # adjust if CRA build
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -98,7 +98,7 @@ USE_TZ = True
 # Static files for React
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, '../../frontend/chat/build/assets')  # or /static if CRA
+    os.path.join(BASE_DIR, '../../../frontend/chat/build/assets')  # or /static if CRA
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
