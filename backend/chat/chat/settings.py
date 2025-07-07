@@ -98,7 +98,7 @@ USE_TZ = True
 # Static files for React
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'frontend/chat/build/assets')  # or /static if CRA
+    os.path.join(BASE_DIR, '../../frontend/chat/build/assets')  # or /static if CRA
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
