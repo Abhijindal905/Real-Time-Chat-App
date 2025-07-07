@@ -4,8 +4,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-8+msooe&kbcg-nmj-vrc#vp#2(#=f8vg8xvc^6i=b&36^uam&x'
-DEBUG = True  # ⚠️ Set to False on production
-ALLOWED_HOSTS = ["*", "127.0.0.1", "abhijindal905.pythonanywhere.com"]
+
 
 # Application definition
 INSTALLED_APPS = [
