@@ -43,7 +43,7 @@ ROOT_URLCONF = 'chat.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'frontend/chat/build')],  # adjust if CRA build
+        'DIRS': [os.path.join(BASE_DIR, '../../frontend/chat/build')],  # adjust if CRA build
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
