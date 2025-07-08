@@ -31,7 +31,7 @@ function Register() {
     setLoading(true);
 
     try {
-      const res = axios.post(`${import.meta.env.VITE_API_URL}register/`, formData);
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}register/`, formData);
 
       setSuccess(res.data.message || "Registered successfully!");
 
@@ -39,17 +39,20 @@ function Register() {
         navigate("/login");
       }, 1000);
     }catch (error) {
-      console.log("Full error:", error.response?.data);  // Debugging
+      console.log("❌ Full error:", error.response?.data);
     
       const data = error.response?.data;
       if (data?.error) {
         setError(data.error);
+      } else if (data?.message) {
+        setError(data.message);
       } else {
         setError("Registration failed.");
       }
     
       setLoading(false);
     }
+    
   };
 
   return (

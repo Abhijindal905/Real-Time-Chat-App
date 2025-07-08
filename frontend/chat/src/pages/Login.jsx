@@ -28,7 +28,7 @@ function Login() {
     setLoading(true);
 
     try {
-      const res = axios.post(`${import.meta.env.VITE_API_URL}login/`, formData);
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}login/`, formData);
 
       if (res.data?.access && res.data?.refresh) {
         localStorage.setItem("refresh", res.data.refresh);
