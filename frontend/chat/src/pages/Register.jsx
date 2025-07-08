@@ -29,7 +29,7 @@ function Register() {
     setLoading(true);
 
     try {
-      const res = await axios.post("http://127.0.0.1:8000/api/register/", formData);
+      const res = await axios.post(`${process.env.REACT_APP_API_URL}register/`, formData);
       setSuccess(res.data.message || "Registered successfully!");
 
       setTimeout(() => {

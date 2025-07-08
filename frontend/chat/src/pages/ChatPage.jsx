@@ -10,7 +10,7 @@ function ChatPage() {
   const username = localStorage.getItem("username");
 
   useEffect(() => {
-    const ws = new WebSocket(`ws://127.0.0.1:8000/ws/chat/${roomName.trim()}/`);
+    const ws = new WebSocket(`${process.env.REACT_APP_WS_URL}${roomName.trim()}/`);
 
     ws.onopen = () => {
       console.log("✅ Connected to WebSocket");
