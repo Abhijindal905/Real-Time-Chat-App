@@ -34,16 +34,21 @@ function ChatPage() {
   }, [roomName]);
 
   const handleSend = () => {
-    if (message.trim() && socket) {
-      socket.send(
-        JSON.stringify({
-          message: message,
-          sender: username,
-        })
-      );
+    if (
+      message.trim() &&
+      socket &&
+      socket.readyState === WebSocket.OPEN
+    ) {
+      socket.send(JSON.stringify({
+        message: message,
+        sender: username,
+      }));
       setMessage("");
+    } else {
+      console.warn("WebSocket is not open yet.");
     }
   };
+  
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
