@@ -6,4 +6,6 @@ pip install -r ../chat/requirements.txt
 
 python ../chat/manage.py collectstatic --no-input
 
-python ../chat/manage.py migrate
+python ../chat/manage.py makemigrations
+
+python ../chat/manage.py migrate --no-input
