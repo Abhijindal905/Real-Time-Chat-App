@@ -5,6 +5,8 @@ __pycache__/
 *.pyd
 *.sqlite3
 
+build/
+
 # Django
 db.sqlite3
 .env
@@ -14,7 +16,6 @@ db.sqlite3
 .vscode/
 *.code-workspace
 .idea/
-
 # Logs
 *.log
 
