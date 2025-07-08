@@ -35,8 +35,16 @@ function Register() {
       setTimeout(() => {
         navigate("/login");
       }, 1000);
-    } catch (error) {
-      setError(error.response?.data?.error || "Registration failed.");
+    }catch (error) {
+      console.log("Full error:", error.response?.data);  // Debugging
+    
+      const data = error.response?.data;
+      if (data?.error) {
+        setError(data.error);
+      } else {
+        setError("Registration failed.");
+      }
+    
       setLoading(false);
     }
   };
