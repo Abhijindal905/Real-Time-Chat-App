@@ -25,15 +25,17 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 
 STORAGES = {
-    "default" : {
-        "BACKEND" : "django.core.files.storage.FileSystemStorage"
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage"
     },
-    "STATICFILES" : {
-        "BACKEND" : "whitenoise.storage.CompressedStaticFilesStorage"
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage"
     },
 }
+
 
 DATABASES = {
     'default' : dj_database_url.config(
