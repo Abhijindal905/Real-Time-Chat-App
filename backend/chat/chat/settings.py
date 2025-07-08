@@ -83,10 +83,16 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("redis", 6379)],
+            "hosts": [{
+                "host": "redis-10744.c55.eu-central-1-1.ec2.redns.redis-cloud.com",
+                "port": 10744,
+                "password": "oIUbYT2WOza7llIMWctmLdgGpgIRiFGJ",
+                "ssl": True,
+            }],
         },
     },
 }
+
 
 
 # Database
