@@ -71,7 +71,6 @@ def create_room(request):
 
 @api_view(['GET'])
 def list_room(request):
-    rooms = ChatRoom.objects.all().values('id', 'name')
+    rooms = list(ChatRoom.objects.all().values('id', 'name'))
     return Response({'rooms': rooms})
-
 
