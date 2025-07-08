@@ -10,7 +10,7 @@ function Dashboard() {
 
   const fetchRooms = async () => {
     try {
-      const res = await axios.get(`${process.env.REACT_APP_API_URL}list_room/`);
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}list_room/`);
       setRooms(res.data.rooms);
       console.log(res.data.rooms);
     } catch (error) {
@@ -33,7 +33,7 @@ function Dashboard() {
 
     const tryCreateRoom = async (token) => {
       return await axios.post(
-        `${process.env.REACT_APP_API_URL}create_room/`,
+        `${import.meta.env.VITE_API_URL}create_room/`,
         { room_name: newRoom },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -47,7 +47,7 @@ function Dashboard() {
       if (err.response?.status === 401) {
         try {
           const refresh = localStorage.getItem("refresh");
-          const newRes = await axios.post(`${process.env.REACT_APP_API_URL}token/refresh/`, {
+          const newRes = await axios.post(`${import.meta.env.VITE_API_URL}token/refresh/`, {
             refresh: refresh
           });
           accessToken = newRes.data.access;

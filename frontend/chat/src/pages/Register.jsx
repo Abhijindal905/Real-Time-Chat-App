@@ -3,6 +3,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Register() {
+  console.log("API:", import.meta.env.VITE_API_URL);
+
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
@@ -29,7 +31,8 @@ function Register() {
     setLoading(true);
 
     try {
-      const res = await axios.post(`${process.env.REACT_APP_API_URL}register/`, formData);
+      const res = axios.post(`${import.meta.env.VITE_API_URL}register/`, formData);
+
       setSuccess(res.data.message || "Registered successfully!");
 
       setTimeout(() => {
