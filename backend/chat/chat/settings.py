@@ -55,7 +55,7 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5174",
+    "https://real-time-chat-app-frontend-1.onrender.com/",
 ]
 
 CORS_ALLOWED_ALL_ORIGINS = True
