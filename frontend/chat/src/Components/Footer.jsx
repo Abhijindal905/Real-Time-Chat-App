@@ -8,7 +8,7 @@ function Footer() {
         {/* Brand Info */}
         <div>
           <div className="flex items-center gap-3 mb-4">
-            <img src="/public/images/talking-icon.svg" alt="logo-icon" className="w-10 invert" />
+            <img src="/images/talking-icon.svg" alt="logo-icon" className="w-10 invert" />
             <h2 className="text-3xl font-bold">Gupshup</h2>
           </div>
           <p className="text-gray-400 text-sm leading-relaxed">
@@ -43,16 +43,16 @@ function Footer() {
           <h3 className="text-xl font-semibold mb-4">Get in Touch</h3>
           <div className="flex gap-4 mb-4">
             <a href="#" aria-label="Facebook">
-              <img src="/public/images/facebook.svg" alt="Facebook" className="w-6 hover:scale-110 transition invert" />
+              <img src="/images/facebook.svg" alt="Facebook" className="w-6 hover:scale-110 transition invert" />
             </a>
             <a href="#" aria-label="Instagram">
-              <img src="/public/images/instagram.svg" alt="Instagram" className="w-6 hover:scale-110 transition invert" />
+              <img src="/images/instagram.svg" alt="Instagram" className="w-6 hover:scale-110 transition invert" />
             </a>
             <a href="#" aria-label="GitHub">
-              <img src="/public/images/github.svg" alt="GitHub" className="w-6 hover:scale-110 transition invert" />
+              <img src="/images/github.svg" alt="GitHub" className="w-6 hover:scale-110 transition invert" />
             </a>
             <a href="#" aria-label="LinkedIn">
-              <img src="/public/images/linkedin.svg" alt="LinkedIn" className="w-6 hover:scale-110 transition invert" />
+              <img src="/images/linkedin.svg" alt="LinkedIn" className="w-6 hover:scale-110 transition invert" />
             </a>
           </div>
         </div>
