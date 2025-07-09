@@ -25,13 +25,13 @@ function Header() {
         </div>
         <div className="flex items-center gap-4 sm:gap-8 ml-auto">
           <div className="text-sm sm:text-base font-semibold uppercase">
-            {access ? username : ""}
+            <button onClick={() => navigate('/dashboard')} className="border p-2 rounded bg-green-300 cursor-pointer">{access ? username : ""}</button>
           </div>
 
           {access && (
             <button
               onClick={handleLogout}
-              className="bg-red-500 text-white px-3 py-1 sm:px-4 sm:py-2 rounded hover:bg-red-700 text-sm sm:text-base"
+              className="bg-red-500 text-white px-3 py-1 sm:px-4 sm:py-2 rounded hover:bg-red-700 text-sm sm:text-base cursor-pointer"
             >
               Logout
             </button>
