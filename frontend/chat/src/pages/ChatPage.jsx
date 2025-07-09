@@ -12,96 +12,72 @@ function ChatPage() {
   useEffect(() => {
     const ws = new WebSocket(`${import.meta.env.VITE_WS_URL}${roomName.trim()}/`);
 
-    ws.onopen = () => {
-      console.log("✅ Connected to WebSocket");
-    };
-
+    ws.onopen = () => console.log("✅ Connected to WebSocket");
     ws.onmessage = (e) => {
       const data = JSON.parse(e.data);
-      setMessages((prev) => [
-        ...prev,
-        { message: data.message, sender: data.sender },
-      ]);
+      setMessages((prev) => [...prev, { message: data.message, sender: data.sender }]);
     };
-
-    ws.onclose = () => {
-      console.log("🔌 WebSocket disconnected");
-    };
+    ws.onclose = () => console.log("🔌 WebSocket disconnected");
 
     setSocket(ws);
-
     return () => ws.close();
   }, [roomName]);
 
   const handleSend = () => {
-    if (
-      message.trim() &&
-      socket &&
-      socket.readyState === WebSocket.OPEN
-    ) {
-      socket.send(JSON.stringify({
-        message: message,
-        sender: username,
-      }));
+    if (message.trim() && socket?.readyState === WebSocket.OPEN) {
+      socket.send(JSON.stringify({ message, sender: username }));
       setMessage("");
-    } else {
-      console.warn("WebSocket is not open yet.");
     }
   };
-  
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   return (
-    <div className="w-full max-w-4xl mx-auto h-[80vh] flex flex-col border rounded shadow bg-white m-4">
-      
+    <div className="w-full max-w-3xl mx-auto h-[90vh] flex flex-col rounded-xl shadow-md border bg-white overflow-hidden">
+
       {/* Header */}
-      <div className="bg-green-600 text-white text-lg sm:text-xl font-bold p-3 sm:p-4 rounded-t flex justify-between items-center">
-        <span className="truncate">Chat Room: {roomName}</span>
+      <div className="bg-green-600 text-white px-6 py-4 text-lg font-semibold flex justify-between items-center">
+        <span className="truncate">💬 Room: {roomName}</span>
+        <span className="text-sm text-white/80">You: @{username}</span>
       </div>
 
-      {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto px-3 py-4 space-y-3 bg-gray-50">
-        {messages.map((msg, index) => {
+      {/* Messages */}
+      <div className="flex-1 overflow-y-auto bg-gray-100 p-4 space-y-4">
+        {messages.map((msg, i) => {
           const isUser = msg.sender === username;
           return (
-            <div
-              key={index}
-              className={`flex ${isUser ? "justify-end" : "justify-start"}`}
-            >
+            <div key={i} className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
               <div
-                className={`max-w-[80%] sm:max-w-xs px-4 py-2 rounded-lg shadow ${
+                className={`px-4 py-2 max-w-[75%] rounded-2xl shadow text-sm ${
                   isUser
-                    ? "bg-blue-600 text-white rounded-br-none"
-                    : "bg-gray-200 text-black rounded-bl-none"
+                    ? "bg-green-500 text-white rounded-br-none"
+                    : "bg-white text-gray-800 rounded-bl-none border"
                 }`}
               >
-                <p className="break-words text-sm sm:text-base">{msg.message}</p>
-                <p className="text-xs mt-1 font-medium text-right opacity-80">
-                  @{msg.sender}
-                </p>
+                <p className="whitespace-pre-line">{msg.message}</p>
+                <p className="text-xs mt-1 text-right text-black/50">@{msg.sender}</p>
               </div>
             </div>
           );
         })}
-        <div ref={bottomRef}></div>
+        <div ref={bottomRef} />
       </div>
 
-      {/* Input Section */}
-      <div className="p-3 sm:p-4 border-t flex gap-2">
+      {/* Input */}
+      <div className="border-t p-4 bg-white flex items-center gap-2">
         <input
           type="text"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSend()}
-          placeholder="Type a message..."
-          className="flex-1 border rounded px-3 py-2 text-sm sm:text-base focus:outline-none focus:ring focus:ring-green-300"
+          placeholder="Type something..."
+          className="flex-1 border border-gray-300 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400 text-sm"
         />
         <button
           onClick={handleSend}
-          className="bg-green-600 text-white px-4 sm:px-6 py-2 text-sm sm:text-base rounded hover:bg-green-700 transition"
+          className="bg-green-600 hover:bg-green-700 transition text-white px-5 py-2 rounded-full text-sm font-semibold"
         >
           Send
         </button>
