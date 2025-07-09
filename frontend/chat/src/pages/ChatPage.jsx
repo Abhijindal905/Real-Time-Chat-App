@@ -45,10 +45,6 @@ function ChatPage() {
     }
   };
 
-  useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
-
   return (
     <div className="w-full max-w-4xl mx-auto h-[80vh] flex flex-col border rounded shadow bg-white m-4">
       
