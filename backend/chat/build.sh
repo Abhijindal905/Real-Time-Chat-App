@@ -13,9 +13,11 @@ python ../chat/manage.py migrate --no-input
 echo "
 from django.contrib.auth import get_user_model;
 User = get_user_model();
-if not User.objects.filter(username='admin').exists():
-    User.objects.create_superuser('admin', 'admin@example.com', 'adminpass');
-    print('✅ Superuser created');
+admin = User.objects.filter(username='admin').first()
+if admin:
+    admin.set_password('newpassword123')
+    admin.save()
+    print('✅ Admin password reset');
 else:
-    print('ℹ️ Superuser already exists');
+    print('❌ Admin user not found');
 " | python ../chat/manage.py shell
