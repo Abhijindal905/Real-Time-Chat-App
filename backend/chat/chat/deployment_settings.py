@@ -44,3 +44,7 @@ DATABASES = {
     )
 }
 
+CORS_ALLOWED_ORIGINS = [
+    "https://real-time-chat-app-frontend-eu0j.onrender.com",
+]
+
