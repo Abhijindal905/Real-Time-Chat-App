@@ -100,7 +100,7 @@ import dj_database_url
 
 DATABASES = {
     'default': dj_database_url.config(
-        default='postgresql://djangobackend_23rl_user:7ApOD42KJ8L7YncDuaxUROKY1ketQH7R@dpg-d1mb2fu3jp1c73eicplg-a.db.render.com/djangobackend_23rl',
+        default='postgresql://djangobackend_23rl_user:7ApOD42KJ8L7YncDuaxUROKY1ketQH7R@dpg-d1mb2fu3jp1c73eicplg-a/djangobackend_23rl',
         conn_max_age=600,
         ssl_require=True
     )
