@@ -3,6 +3,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Register() {
+  console.log("API:", import.meta.env.VITE_API_URL);
+
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
@@ -29,16 +31,28 @@ function Register() {
     setLoading(true);
 
     try {
-      const res = await axios.post("http://127.0.0.1:8000/api/register/", formData);
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}register/`, formData);
+
       setSuccess(res.data.message || "Registered successfully!");
 
       setTimeout(() => {
         navigate("/login");
       }, 1000);
-    } catch (error) {
-      setError(error.response?.data?.error || "Registration failed.");
+    }catch (error) {
+      console.log("❌ Full error:", error.response?.data);
+    
+      const data = error.response?.data;
+      if (data?.error) {
+        setError(data.error);
+      } else if (data?.message) {
+        setError(data.message);
+      } else {
+        setError("Registration failed.");
+      }
+    
       setLoading(false);
     }
+    
   };
 
   return (
@@ -49,7 +63,7 @@ function Register() {
         <div className="text-center flex flex-col gap-4">
           <h1 className="text-3xl sm:text-4xl text-white font-bold">Welcome Back!</h1>
           <p className="text-white text-2xl font-semibold">Gupshup</p>
-          <img src="/src/images/talking-icon.svg" alt="logo-icon" className="w-24 mx-auto" />
+          <img src="/images/talking-icon.svg" alt="logo-icon" className="mx-auto" />
         </div>
       </div>
 

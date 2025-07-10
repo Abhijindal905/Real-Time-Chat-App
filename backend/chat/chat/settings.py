@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -55,8 +56,9 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
+    "https://real-time-chat-app-frontend-eu0j.onrender.com",
 ]
+
 
 ROOT_URLCONF = 'chat.urls'
 
@@ -81,21 +83,29 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("127.0.0.1", 6379)],
+            "hosts": [
+                "redis://default:oIUbYT2WOza7llIMWctmLdgGpgIRiFGJ@redis-10744.c55.eu-central-1-1.ec2.redns.redis-cloud.com:10744"
+            ],
         },
     },
 }
 
 
+
+
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+import dj_database_url
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default='postgresql://djangobackend_23rl_user:7ApOD42KJ8L7YncDuaxUROKY1ketQH7R@dpg-d1mb2fu3jp1c73eicplg-a/djangobackend_23rl',
+        conn_max_age=600,
+        ssl_require=True
+    )
 }
+
 
 
 # Password validation
@@ -132,6 +142,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
+STATIC_ROOT = BASE_DIR/'staticfiles'
+ 
 STATIC_URL = 'static/'
 
 # Default primary key field type

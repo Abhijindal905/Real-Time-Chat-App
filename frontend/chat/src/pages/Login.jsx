@@ -28,7 +28,7 @@ function Login() {
     setLoading(true);
 
     try {
-      const res = await axios.post("http://127.0.0.1:8000/api/login/", formData);
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}login/`, formData);
 
       if (res.data?.access && res.data?.refresh) {
         localStorage.setItem("refresh", res.data.refresh);
@@ -57,7 +57,7 @@ function Login() {
         <div className="text-center flex flex-col gap-4">
           <h1 className="text-3xl sm:text-4xl text-white font-bold">Welcome Again!</h1>
           <p className="text-white text-2xl font-semibold">Gupshup</p>
-          <img src="/src/images/talking-icon.svg" alt="logo-icon" className="w-24 mx-auto" />
+          <img src="/images/talking-icon.svg" alt="logo-icon" className="mx-auto" />
         </div>
       </div>
 

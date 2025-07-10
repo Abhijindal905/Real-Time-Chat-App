@@ -17,7 +17,7 @@ function Header() {
       <div className="max-w-screen-xl mx-auto flex justify-between items-center flex-wrap gap-4">
         <div className="flex items-center gap-2">
           <img
-            src="/src/images/talking-icon.svg"
+            src="/images/talking-icon.svg"
             alt="logo-icon"
             className="w-8 sm:w-10"
           />
