@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import ProfileImageFetcher from '../Components/ProfileImageFetcher';
 
 function Dashboard() {
   const [rooms, setRooms] = useState([]);
@@ -105,13 +106,7 @@ function Dashboard() {
     <div className="min-h-screen max-w-5xl mx-auto p-4 md:p-8">
       {/* Welcome Section with Profile Image */}
       <div className="flex items-center gap-4 mb-6">
-        {userProfile?.profile_image && (
-          <img
-            src={userProfile.profile_image}
-            alt="Profile"
-            className="w-20 h-20 rounded-full object-cover border-2 border-green-600 bg-center"
-          />
-        )}
+        <ProfileImageFetcher size={80} />
         <h1 className="text-3xl md:text-4xl font-bold text-green-700">
           👋 Welcome, {userProfile?.username || "User"}
         </h1>
