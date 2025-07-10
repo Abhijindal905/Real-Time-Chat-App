@@ -168,6 +168,5 @@ AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
 MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/"
 
 AWS_QUERYSTRING_AUTH = False
-AWS_DEFAULT_ACL = 'public-read'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # for local fallback
