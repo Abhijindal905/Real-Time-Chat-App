@@ -24,6 +24,9 @@ def register(request):
     if User.objects.filter(username = username).exists():
         return Response({'error': 'Already exists username'}, status=status.HTTP_400_BAD_REQUEST)
     
+    if User.objects.filter(email=email).exists():
+        return Response({'error': 'Already exists email'}, status=status.HTTP_400_BAD_REQUEST)
+    
     user = User.objects.create_user(username=username, email=email, password=password)
     return Response({'message' : 'Registered Successfully'}, status=status.HTTP_201_CREATED)
 
@@ -32,9 +35,6 @@ def register(request):
 def login(request):
     username = request.data.get('username')
     password = request.data.get('password')
-
-    print("username : ", username)
-    print("password", password)
 
     if not username or not password:
         return Response({'error': 'All Fields are required'}, status=status.HTTP_400_BAD_REQUEST)
@@ -49,7 +49,8 @@ def login(request):
     return Response({
         'refresh': str(refresh),
         'access': str(refresh.access_token),
-        'message': 'Login Successfully'
+        'message': 'Login Successfully',
+        'username': user.username
     }, status=status.HTTP_200_OK)
 
 
@@ -70,7 +71,6 @@ def create_room(request):
 
 @api_view(['GET'])
 def list_room(request):
-    rooms = ChatRoom.objects.all().values('id', 'name')
+    rooms = list(ChatRoom.objects.all().values('id', 'name'))
     return Response({'rooms': rooms})
-
 
