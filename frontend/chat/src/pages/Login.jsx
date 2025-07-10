@@ -38,7 +38,7 @@ function Login() {
 
         setTimeout(() => {
           navigate("/dashboard");
-        }, 1000);
+        }, 500);
       } else {
         setError("Invalid response from server.");
         setLoading(false);

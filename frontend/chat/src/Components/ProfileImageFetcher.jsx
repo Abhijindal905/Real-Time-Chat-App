@@ -4,7 +4,6 @@ import axios from 'axios';
 function ProfileImageFetcher({ size = 80 }) {
   const [imageUrl, setImageUrl] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [username, setUsername] = useState("");
   const [error, setError] = useState(false);
   const fileInputRef = useRef(null);
 
@@ -20,7 +19,6 @@ function ProfileImageFetcher({ size = 80 }) {
       });
 
       setImageUrl(res.data.profile_image);
-      setUsername(res.data.username);
       setError(false);
     } catch (err) {
       console.error("Failed to fetch profile image", err);
