@@ -27,5 +27,4 @@ urlpatterns = [
     # API endpoints
     path('api/', include('core.urls')),  # your backend API routes
     path('', lambda request: HttpResponse("✅ Backend is running!")),
-]
-
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
