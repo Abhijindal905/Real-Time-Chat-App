@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, parser_classes
+from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import authenticate
@@ -8,12 +9,15 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
 from .models import *
+from core.models import UserProfile
 # Create your views here.
 @api_view(['POST'])
+@parser_classes([MultiPartParser, FormParser])
 def register(request):
     username = request.data.get('username')
     email = request.data.get('email')
     password = request.data.get('password')
+    profile_image = request.FILES.get('profile_image')
 
 
     print("getting data", username)
@@ -28,6 +32,11 @@ def register(request):
         return Response({'error': 'Already exists email'}, status=status.HTTP_400_BAD_REQUEST)
     
     user = User.objects.create_user(username=username, email=email, password=password)
+    profile, created = UserProfile.objects.get_or_create(user=user)
+    if profile_image:
+        profile.profile_image = profile_image
+        profile.save()
+    
     return Response({'message' : 'Registered Successfully'}, status=status.HTTP_201_CREATED)
 
 
@@ -73,4 +82,15 @@ def create_room(request):
 def list_room(request):
     rooms = list(ChatRoom.objects.all().values('id', 'name'))
     return Response({'rooms': rooms})
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def user_profile(request):
+    user = request.user
+    profile = user.userprofile
+
+    return Response({
+        "username": user.username,
+        "profile_image": request.build_absolute_uri(profile.profile_image.url) if profile.profile_image else None
+    })
 

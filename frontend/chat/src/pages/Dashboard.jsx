@@ -3,9 +3,9 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 function Dashboard() {
-  const username = localStorage.getItem("username");
   const [rooms, setRooms] = useState([]);
   const [newRoom, setNewRoom] = useState('');
+  const [userProfile, setUserProfile] = useState(null);
   const navigate = useNavigate();
 
   const fetchRooms = async () => {
@@ -18,8 +18,42 @@ function Dashboard() {
     }
   };
 
+  const fetchUserProfile = async () => {
+    let token = localStorage.getItem("access");
+    try {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}user_profile/`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setUserProfile(res.data);
+    } catch (error) {
+      if (error.response?.status === 401) {
+        try {
+          const refresh = localStorage.getItem("refresh");
+          const newRes = await axios.post(`${import.meta.env.VITE_API_URL}token/refresh/`, {
+            refresh: refresh
+          });
+          token = newRes.data.access;
+          localStorage.setItem("access", token);
+  
+          // retry fetching profile
+          const res = await axios.get(`${import.meta.env.VITE_API_URL}user_profile/`, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          setUserProfile(res.data);
+        } catch (refreshError) {
+          console.error("Refresh token failed:", refreshError);
+          localStorage.clear();
+          navigate("/login");
+        }
+      } else {
+        console.error("Error fetching user profile:", error);
+      }
+    }
+  };
+  
   useEffect(() => {
     fetchRooms();
+    fetchUserProfile();
   }, []);
 
   const handleJoinRoom = (roomName) => {
@@ -69,9 +103,19 @@ function Dashboard() {
 
   return (
     <div className="min-h-screen max-w-5xl mx-auto p-4 md:p-8">
-      <h1 className="text-3xl md:text-4xl font-bold text-green-700 mb-6 text-center md:text-left">
-        👋 Welcome, {username}
-      </h1>
+      {/* Welcome Section with Profile Image */}
+      <div className="flex items-center gap-4 mb-6">
+        {userProfile?.profile_image && (
+          <img
+            src={userProfile.profile_image}
+            alt="Profile"
+            className="w-20 h-20 rounded-full object-cover border-2 border-green-600 bg-center"
+          />
+        )}
+        <h1 className="text-3xl md:text-4xl font-bold text-green-700">
+          👋 Welcome, {userProfile?.username || "User"}
+        </h1>
+      </div>
 
       <div className="bg-white shadow-lg rounded-lg p-6">
         <h2 className="text-2xl font-semibold text-gray-800 mb-4">Available Rooms</h2>
