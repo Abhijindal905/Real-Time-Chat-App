@@ -10,5 +10,6 @@ urlpatterns = [
     path('create_room/', create_room, name="create_room"),
     path('list_room/', list_room, name="list_room"),
     path('user_profile/', user_profile, name="user_profile"),
+    path('upload_profile_image/', upload_profile_image, name="upload_profile_image"),
 
 ]
