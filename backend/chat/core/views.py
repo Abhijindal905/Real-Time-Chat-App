@@ -62,26 +62,20 @@ def login(request):
         'username': user.username
     }, status=status.HTTP_200_OK)
 
-
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def create_room(request):
-    room_name = request.data.get("room_name")
-
-    if not room_name:
-        return Response({"message" : "Room name is required"}, status=status.HTTP_400_BAD_REQUEST)
-    
-    if ChatRoom.objects.filter(name=room_name).exists():
-        return Response({"message": "Already exists"}, status=status.HTTP_400_BAD_REQUEST)
-    
-    room = ChatRoom.objects.create(name=room_name)
-    return Response({'message': 'Created Successfully','id': room.id, 'name': room.name}, status=status.HTTP_201_CREATED)
-
-
 @api_view(['GET'])
-def list_room(request):
-    rooms = list(ChatRoom.objects.all().values('id', 'name'))
-    return Response({'rooms': rooms})
+def list_users(request):
+    users = UserProfile.objects.select_related('user')
+    data = []
+    for user in users:
+        data.append(
+            {
+                'id': user.id,
+                "username": user.user.username,
+                "profile_image": request.build_absolute_uri(user.profile_image) if user.profile_image else None
+            }
+        )
+
+    return Response(data)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])

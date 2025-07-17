@@ -78,7 +78,7 @@ function Header() {
               Login
             </button>
             <button
-              onClick={() => navigate("/register")}
+              onClick={() => navigate("/")}
               className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition"
             >
               Register
