@@ -48,6 +48,9 @@ function ProfileImageFetcher({ size = 80 }) {
     }
   };
 
+  const handleClick = () => {
+    console.log("click")
+  }
   useEffect(() => {
     fetchProfile();
   }, []);
