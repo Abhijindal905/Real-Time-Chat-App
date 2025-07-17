@@ -50,3 +50,4 @@ uvicorn==0.35.0
 watchgod==0.8.2
 whitenoise==6.9.0
 zope.interface==7.2
+django-storages==1.14.6
