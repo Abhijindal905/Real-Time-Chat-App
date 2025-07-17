@@ -71,7 +71,7 @@ def list_users(request):
             {
                 'id': user.id,
                 "username": user.user.username,
-                "profile_image": request.build_absolute_uri(user.profile_image) if user.profile_image else None
+                "profile_image": request.build_absolute_uri(user.profile_image.url) if user.profile_image else None
             }
         )
 
