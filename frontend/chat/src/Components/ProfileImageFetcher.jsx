@@ -3,10 +3,11 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 function ProfileImageFetcher({ size = 80 }) {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [imageUrl, setImageUrl] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const inputRef = useRef();
 
   const fetchProfile = async () => {
     setLoading(true);
@@ -22,22 +23,21 @@ function ProfileImageFetcher({ size = 80 }) {
       setImageUrl(res.data.profile_image);
       setError(false);
     } catch (err) {
-      if (err.res?.status == 401) {
-        try{
-          const refresh = localStorage.getItem("refresh")
+      if (err.response?.status === 401) {
+        try {
+          const refresh = localStorage.getItem("refresh");
           const newRes = await axios.post(`${import.meta.env.VITE_API_URL}token/refresh/`, {
             refresh: refresh
           });
 
-          token = newRes.data.access
-          localStorage.setItem("access", token)
+          token = newRes.data.access;
+          localStorage.setItem("access", token);
           const res = await axios.get(`${import.meta.env.VITE_API_URL}user_profile/`, {
             headers: { Authorization: `Bearer ${token}` },
           });
 
           setImageUrl(res.data.profile_image);
-        }
-        catch(refreshError){
+        } catch (refreshError) {
           console.error("Refresh token failed:", refreshError);
           localStorage.clear();
           navigate("/login");
@@ -51,8 +51,32 @@ function ProfileImageFetcher({ size = 80 }) {
   };
 
   const handleClick = () => {
-    console.log("click")
-  }
+    inputRef.current.click();
+  };
+
+  const handleImageChange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('profile_image', file);
+
+    try {
+      const token = localStorage.getItem("access");
+      await axios.put(`${import.meta.env.VITE_API_URL}upload_image/`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      // Refresh image after upload
+      fetchProfile();
+    } catch (err) {
+      console.error("Failed to upload image", err);
+    }
+  };
+
   useEffect(() => {
     fetchProfile();
   }, []);
@@ -74,17 +98,17 @@ function ProfileImageFetcher({ size = 80 }) {
           alt="Profile"
           title="Click to change profile image"
           className="rounded-full object-cover border-2 border-green-600 bg-center cursor-pointer"
-          style={{
-            width: `${size}px`,
-            height: `${size}px`,
-          }}
+          style={{ width: `${size}px`, height: `${size}px` }}
+          onClick={handleClick}
         />
       )}
 
       <input
         type="file"
         accept="image/*"
+        ref={inputRef}
         className="hidden"
+        onChange={handleImageChange}
       />
     </div>
   );
