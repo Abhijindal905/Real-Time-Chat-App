@@ -63,7 +63,7 @@ function ProfileImageFetcher({ size = 80 }) {
 
     try {
       const token = localStorage.getItem("access");
-      await axios.put(`${import.meta.env.VITE_API_URL}upload_image/`, formData, {
+      await axios.put(`${import.meta.env.VITE_API_URL}upload_profile_image/`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',
