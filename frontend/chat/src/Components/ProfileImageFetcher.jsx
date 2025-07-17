@@ -1,14 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function ProfileImageFetcher({ size = 80 }) {
+  const navigate = useNavigate()
   const [imageUrl, setImageUrl] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
   const fetchProfile = async () => {
     setLoading(true);
-    const token = localStorage.getItem("access");
+    let token = localStorage.getItem("access");
 
     try {
       const res = await axios.get(`${import.meta.env.VITE_API_URL}user_profile/`, {
@@ -22,7 +24,7 @@ function ProfileImageFetcher({ size = 80 }) {
     } catch (err) {
       if (err.res?.status == 401) {
         try{
-          const refresh = localStorage.getItem("refersh")
+          const refresh = localStorage.getItem("refresh")
           const newRes = await axios.post(`${import.meta.env.VITE_API_URL}token/refresh/`, {
             refresh: refresh
           });
