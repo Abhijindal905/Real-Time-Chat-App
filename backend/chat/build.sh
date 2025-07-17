@@ -8,7 +8,7 @@ pip install -r ../chat/requirements.txt
 python ../chat/manage.py collectstatic --no-input
 
 # Optional: explicitly call makemigrations on the app
-python ../chat/manage.py makemigrations
+python ../chat/manage.py makemigrations --merge
 python ../chat/manage.py migrate --no-input
 
 # ✅ Create or update admin user
