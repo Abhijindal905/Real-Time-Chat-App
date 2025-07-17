@@ -46,7 +46,7 @@ function Register() {
 
       setTimeout(() => {
         navigate("/login");
-      }, 1000);
+      }, 500);
     } catch (error) {
       const data = error.response?.data;
       if (data?.error) setError(data.error);

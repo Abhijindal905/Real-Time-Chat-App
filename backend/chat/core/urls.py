@@ -9,5 +9,6 @@ urlpatterns = [
     path('token/refresh/', TokenRefreshView.as_view(), name="token_refresh"),
     path('list_users/', list_users, name="list_users"),
     path('user_profile/', user_profile, name="user_profile"),
+    path('upload_profile_image/', upload_profile_image, name="upload_profile_image"),
 
 ]

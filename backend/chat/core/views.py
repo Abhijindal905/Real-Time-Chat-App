@@ -88,3 +88,18 @@ def user_profile(request):
         "profile_image": request.build_absolute_uri(profile.profile_image.url) if profile.profile_image else None
     })
 
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def upload_profile_image(request):
+    user = request.user
+    profile = user.userprofile
+
+    image = request.FILES.get('profile_image')
+    if image:
+        profile.profile_image = image
+        profile.save()
+        return Response({"message": "Profile Image Update"})
+    
+    return Response({"error": "No Image Provided"}, status=400)
+

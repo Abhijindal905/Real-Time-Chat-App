@@ -16,12 +16,9 @@ db.sqlite3
 .vscode/
 *.code-workspace
 .idea/
+
 # Logs
 *.log
-
-# Migrations (optional, if auto-generated)
-**/migrations/*.py
-!**/migrations/__init__.py
 
 # Byte-compiled and cache
 *.py[cod]
@@ -30,3 +27,8 @@ db.sqlite3
 # Static files (if collected separately)
 staticfiles/
 media/
+
+# Migrations (keep init and migration files!)
+# ⚠️ DO NOT ignore .py migration files!
+# You may optionally ignore .pyc files
+**/migrations/__pycache__/
