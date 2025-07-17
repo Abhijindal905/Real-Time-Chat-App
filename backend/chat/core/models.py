@@ -12,5 +12,6 @@ class UserProfile(models.Model):
 
 
 class ChatRoom(models.Model):
-    name = models.CharField(max_length=100, unique=True)
+    users = models.OneToOneField(UserProfile, on_delete=models.CASCADE, null=True, blank=True)
+    name = models.CharField(max_length=100, unique=True, null=True, blank=True)
     
