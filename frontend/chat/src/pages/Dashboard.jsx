@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import ProfileImageFetcher from "../Components/ProfileImageFetcher";
-
+import { fetchUserProfile } from "../Components/FetchUserProfile";
 function Dashboard() {
   const [users, setUsers] = useState([]);
   const [userProfile, setUserProfile] = useState(null);
@@ -18,51 +18,9 @@ function Dashboard() {
     }
   };
 
-  const fetchUserProfile = async () => {
-    let token = localStorage.getItem("access");
-    try {
-      const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}user_profile/`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      setUserProfile(res.data);
-    } catch (error) {
-      if (error.response?.status === 401) {
-        try {
-          const refresh = localStorage.getItem("refresh");
-          const newRes = await axios.post(
-            `${import.meta.env.VITE_API_URL}token/refresh/`,
-            {
-              refresh: refresh,
-            }
-          );
-          token = newRes.data.access;
-          localStorage.setItem("access", token);
-
-          // retry fetching profile
-          const res = await axios.get(
-            `${import.meta.env.VITE_API_URL}user_profile/`,
-            {
-              headers: { Authorization: `Bearer ${token}` },
-            }
-          );
-          setUserProfile(res.data);
-        } catch (refreshError) {
-          console.error("Refresh token failed:", refreshError);
-          localStorage.clear();
-          navigate("/login");
-        }
-      } else {
-        console.error("Error fetching user profile:", error);
-      }
-    }
-  };
-
   useEffect(() => {
     fetchUsers();
-    fetchUserProfile();
+    fetchUserProfile(navigate, setUserProfile);
   }, []);
 
   const handleJoinRoom = (roomName) => {
