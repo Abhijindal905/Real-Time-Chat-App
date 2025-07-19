@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
+import ProfileImageFetcher from "../Components/ProfileImageFetcher";
 
 function ChatPage() {
   const { roomName } = useParams();
@@ -37,6 +38,7 @@ function ChatPage() {
       <div className="bg-green-600 text-white px-6 py-4 text-lg font-semibold flex justify-between items-center">
         <span className="truncate">💬 Room: {roomName}</span>
         <span className="text-sm text-white/80">You: @{username}</span>
+        <span><ProfileImageFetcher size={80} /></span>
       </div>
 
       {/* Messages */}
