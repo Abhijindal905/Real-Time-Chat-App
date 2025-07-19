@@ -2,10 +2,10 @@ import os
 import dj_database_url
 from .settings import *
 from .settings import BASE_DIR
-from corsheaders.defaults import default_headers  # ✅ Add this
+from corsheaders.defaults import default_headers 
 
 # Deployment settings
-ALLOWED_HOSTS = ['real-time-chat-app-cq0q.onrender.com']
+ALLOWED_HOSTS = ['chat-app-61j5.onrender.com']
 
 CSRF_TRUSTED_ORIGINS = [
     f"https://{os.environ.get('RENDER_EXTERNAL_HOSTNAME')}"
@@ -16,7 +16,7 @@ DEBUG = False
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',  # ✅ Must be first
+    'corsheaders.middleware.CorsMiddleware', 
     'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -51,9 +51,9 @@ CORS_ALLOWED_ORIGINS = [
     "https://real-time-chat-app-frontend-eu0j.onrender.com",
 ]
 
-CORS_ALLOW_CREDENTIALS = True  # ✅ Required if using cookies or auth headers
+CORS_ALLOW_CREDENTIALS = True 
 
-CORS_ALLOW_HEADERS = list(default_headers) + [  # ✅ Support preflight headers
+CORS_ALLOW_HEADERS = list(default_headers) + [ 
     'access-control-allow-origin',
     'access-control-allow-credentials',
     'authorization',
