@@ -141,7 +141,7 @@ def send_requests(request):
         "sender": room.sender_user.username,
         "receiver": room.receiver_user.username,
         "room_name": room.room_name,
-        "is_accepted": room.is_bothaccepted,
+        "is_accepted": room.is_both_accepted,
     }, status=status.HTTP_201_CREATED)
 
 
@@ -189,7 +189,7 @@ def accept_request(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def outgoing_requests(request):
-    rooms = ChatRoom.objects.filter(sender_user=request.user, is_both_ccepted=False)
+    rooms = ChatRoom.objects.filter(sender_user=request.user, is_both_accepted=False)
 
     data = [
         {
