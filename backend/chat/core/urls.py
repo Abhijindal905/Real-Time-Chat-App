@@ -17,5 +17,5 @@ urlpatterns = [
     path('accepted_rooms/', accepted_rooms, name='accepted_rooms'),
     path('decline_request/', decline_request, name="decline_request"),
     path('delete_account/', delete_account, name="delete_account"),
-    path('get_other_user_profile/<str:room_name>/', get_other_user_profile, name="get_other_user_profile"),
+    path('get_other_user_profile/<int:room_id>/', get_other_user_profile, name="get_other_user_profile"),
 ]

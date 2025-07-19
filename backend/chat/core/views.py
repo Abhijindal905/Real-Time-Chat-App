@@ -248,10 +248,10 @@ def delete_account(request):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def get_other_user_profile(request, room_name):
+def get_other_user_profile(request, room_id):
     username = request.user.username
     try:
-        room = ChatRoom.objects.get(room_name=room_name)
+        room = ChatRoom.objects.get(id = room_id)
 
         # Determine who the other user is
         if room.sender_user.username == username:
