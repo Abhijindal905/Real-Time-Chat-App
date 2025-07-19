@@ -81,12 +81,16 @@ def list_users(request):
 @permission_classes([IsAuthenticated])
 def user_profile(request):
     user = request.user
-    profile = user.userprofile
+    try:
+        profile = UserProfile.objects.get(user=user)
+        data = {
+            'username': user.username,
+            'profile_image': profile.profile_image.url if profile.profile_image else None,
+        }
+        return Response(data)
+    except UserProfile.DoesNotExist:
+        return Response({'error': 'Profile does not exist'}, status=404)
 
-    return Response({
-        "username": user.username,
-        "profile_image": request.build_absolute_uri(profile.profile_image.url) if profile.profile_image else None
-    })
 
 
 @api_view(['PUT'])

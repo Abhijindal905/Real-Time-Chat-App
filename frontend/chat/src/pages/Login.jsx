@@ -28,7 +28,16 @@ function Login() {
     setLoading(true);
 
     try {
-      const res = await axios.post(`${import.meta.env.VITE_API_URL}login/`, formData);
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}login/`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
 
       if (res.data?.access && res.data?.refresh) {
         localStorage.setItem("refresh", res.data.refresh);
@@ -44,7 +53,7 @@ function Login() {
         setLoading(false);
       }
     } catch (error) {
-      setError(error.response?.data?.detail || "Invalid username or password.");
+      setError(error.response?.data?.error || "Invalid username or password.");
       setLoading(false);
     }
   };
