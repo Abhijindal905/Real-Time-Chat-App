@@ -103,3 +103,135 @@ def upload_profile_image(request):
     
     return Response({"error": "No Image Provided"}, status=400)
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def send_requests(request):
+    receiver_username = request.data.get('receiver_username')
+
+    if not receiver_username:
+        return Response({"error": "receiver Name is Required"}, status=status.HTTP_400_BAD_REQUEST)
+    
+    if receiver_username == request.user.username:
+        return Response({"error": "You cant send request to yourself"}, status=status.HTTP_400_BAD_REQUEST)
+    
+    try:
+        receiver = User.objects.get(username = receiver_username)
+    except User.DoesNotExist:
+        return Response({"error": "User does not exist"}, status=status.HTTP_404_NOT_FOUND)
+    
+    if ChatRoom.objects.filter(sender=request.user, receiver=receiver).exists():
+        return Response({"message": "Request already sent"}, status=status.HTTP_400_BAD_REQUEST)
+    
+    if ChatRoom.objects.filter(sender=receiver, receiver=request.user).exists():
+        return Response({"message": "User has already sent you a request"}, status=status.HTTP_400_BAD_REQUEST)
+
+    
+    room_name = f"{request.user.username}_{receiver_username}"
+    room = ChatRoom.objects.create(
+        sender = request.user,
+        receiver = receiver,
+        name = room_name,
+        is_accepted = False
+    )
+
+    return Response({
+        "id": room.id,
+        "sender": room.sender.username,
+        "receiver": room.receiver.username,
+        "room_name": room.name,
+        "is_accepted": room.is_accepted,
+    }, status=status.HTTP_201_CREATED)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def pending_requests(request):
+    rooms = ChatRoom.objects.filter(receiver=request.user, is_accepted = False)
+
+    data = []
+    
+    for room in rooms:
+        data.append(
+            {
+                "id": room.id,
+                "sender": room.sender.username,
+                "room_name": room.name,
+                "is_accepted": room.is_accepted,
+            }
+        )
+    
+    return Response(data)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def accept_request(request):
+    room_id = request.data.get('room_id')  # 👈 Use room_id instead of room_name
+
+    if not room_id:
+        return Response({"error": "room_id is required"}, status=400)
+
+    try:
+        room = ChatRoom.objects.get(id=room_id, receiver=request.user)
+    except ChatRoom.DoesNotExist:
+        return Response({"error": "Request not found"}, status=404)
+
+    room.is_accepted = True
+    room.save()
+
+    return Response({"message": "Request accepted successfully"}, status=200)
+
+    
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def outgoing_requests(request):
+    rooms = ChatRoom.objects.filter(sender=request.user, is_accepted=False)
+
+    data = [
+        {
+            "id": room.id,
+            "receiver": room.receiver.username,
+            "room_name": room.name,
+            "is_accepted": room.is_accepted,
+        }
+        for room in rooms
+    ]
+    return Response(data)
+
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def accepted_rooms(request):
+    rooms = ChatRoom.objects.filter(is_accepted=True).filter(sender=request.user) | ChatRoom.objects.filter(is_accepted=True,receiver=request.user)
+
+    data = []
+    for room in rooms:
+        data.append( 
+            {
+                "id": room.id,
+                "room_name": room.name,
+                "friend_username": room.receiver.username if room.sender == request.user else room.sender.username,
+            }
+        )
+        
+    return Response(data)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def decline_request(request):
+    room_id = request.data.get("room_id")
+    if not room_id:
+        return Response({"error": "room_id is required"}, status=400)
+
+    try:
+        room = ChatRoom.objects.get(id=room_id, receiver=request.user, is_accepted=False)
+        room.delete()
+        return Response({"message": "Request declined and deleted."})
+    except ChatRoom.DoesNotExist:
+        return Response({"message": "Request not found."}, status=404)
+
+
+
+
