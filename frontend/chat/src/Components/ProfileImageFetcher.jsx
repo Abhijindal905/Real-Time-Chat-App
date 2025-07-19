@@ -15,9 +15,7 @@ function ProfileImageFetcher({ size = 80 }) {
 
     try {
       const res = await axios.get(`${import.meta.env.VITE_API_URL}user_profile/`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
 
       setImageUrl(res.data.profile_image);
@@ -27,11 +25,12 @@ function ProfileImageFetcher({ size = 80 }) {
         try {
           const refresh = localStorage.getItem("refresh");
           const newRes = await axios.post(`${import.meta.env.VITE_API_URL}token/refresh/`, {
-            refresh: refresh
+            refresh: refresh,
           });
 
           token = newRes.data.access;
           localStorage.setItem("access", token);
+
           const res = await axios.get(`${import.meta.env.VITE_API_URL}user_profile/`, {
             headers: { Authorization: `Bearer ${token}` },
           });
@@ -43,7 +42,6 @@ function ProfileImageFetcher({ size = 80 }) {
           navigate("/login");
         }
       }
-      console.error("Failed to fetch profile image", err);
       setError(true);
     } finally {
       setLoading(false);
@@ -59,18 +57,17 @@ function ProfileImageFetcher({ size = 80 }) {
     if (!file) return;
 
     const formData = new FormData();
-    formData.append('profile_image', file);
+    formData.append("profile_image", file);
 
     try {
       const token = localStorage.getItem("access");
       await axios.put(`${import.meta.env.VITE_API_URL}upload_profile_image/`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
-          'Content-Type': 'multipart/form-data',
+          "Content-Type": "multipart/form-data",
         },
       });
 
-      // Refresh image after upload
       fetchProfile();
     } catch (err) {
       console.error("Failed to upload image", err);
@@ -82,25 +79,32 @@ function ProfileImageFetcher({ size = 80 }) {
   }, []);
 
   return (
-    <div>
+    <div className="relative group" onClick={handleClick}>
       {loading ? (
-        <div className="w-20 h-20 rounded-full bg-gray-200 animate-pulse" />
+        <div
+          className="w-20 h-20 rounded-full bg-gray-200 animate-pulse"
+          style={{ width: `${size}px`, height: `${size}px` }}
+        />
       ) : error || !imageUrl ? (
         <div
-          className="w-20 h-20 rounded-full bg-gray-300 flex items-center justify-center text-white text-sm cursor-pointer"
-          onClick={handleClick}
+          className="w-20 h-20 rounded-full bg-gray-400 text-white flex items-center justify-center cursor-pointer"
+          style={{ width: `${size}px`, height: `${size}px` }}
         >
           ?
         </div>
       ) : (
-        <img
-          src={imageUrl}
-          alt="Profile"
-          title="Click to change profile image"
-          className="rounded-full object-cover border-2 border-green-600 bg-center cursor-pointer"
-          style={{ width: `${size}px`, height: `${size}px` }}
-          onClick={handleClick}
-        />
+        <>
+          <img
+            src={imageUrl}
+            alt="Profile"
+            className="rounded-full object-cover border-2 border-green-600 cursor-pointer"
+            style={{ width: `${size}px`, height: `${size}px` }}
+          />
+          {/* Hover Overlay */}
+          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-full opacity-0 group-hover:opacity-100 transition-opacity text-white text-xs font-medium">
+            Click to change
+          </div>
+        </>
       )}
 
       <input
