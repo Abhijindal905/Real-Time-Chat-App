@@ -102,23 +102,37 @@ function Dashboard() {
     fetchOutgoingRequests();
     fetchAcceptedRooms();
   };
-
   const getRoomId = (username) => {
-    const room =
-      acceptedRooms.find(
-        (r) =>
-          (r.sender === username && r.receiver === userProfile?.username) ||
-          (r.receiver === username && r.sender === userProfile?.username)
-      ) ||
-      pendingRequests.find(
-        (r) => r.sender === username && r.receiver === userProfile?.username
-      ) ||
-      outgoingRequests.find(
-        (r) => r.receiver === username && r.sender === userProfile?.username
-      );
+      const room =
+        acceptedRooms.find(
+          (r) =>
+            (r.sender === username && r.receiver === userProfile?.username) ||
+            (r.receiver === username && r.sender === userProfile?.username)
+        ) ||
+        pendingRequests.find(
+          (r) => r.sender === username && r.receiver === userProfile?.username
+        ) ||
+        outgoingRequests.find(
+          (r) => r.receiver === username && r.sender === userProfile?.username
+        );
 
-    return room?.id;
-  };
+      return room?.id;
+    };
+  
+
+  const isRequestSent = (username) =>
+    outgoingRequests.some((r) => r.receiver === username);
+
+  const isRequestIncoming = (username) =>
+    pendingRequests.some((r) => r.sender === username);
+
+  const isRequestAccepted = (username) =>
+    acceptedRooms.some((r) => r.friend_username === username);
+  
+
+  useEffect(() => {
+    fetchAll();
+  }, []);
 
   const isRequestSent = (username) =>
     outgoingRequests.some((r) => r.receiver === username);
