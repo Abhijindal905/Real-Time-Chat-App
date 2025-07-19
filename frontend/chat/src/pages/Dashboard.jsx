@@ -14,10 +14,6 @@ function Dashboard() {
   const [acceptedRooms, setAcceptedRooms] = useState([]);
   const navigate = useNavigate();
 
-  fetchUsers(setUsers)
-
-  fetchOutgoingRequests(setOutgoingRequests)
-
   const handleSendRequest = async (receiverUsername) => {
     try {
       await axios.post(`${import.meta.env.VITE_API_URL}send_requests/`, {
@@ -83,10 +79,10 @@ function Dashboard() {
   };
 
   const fetchAll = () => {
-    fetchUsers();
+    fetchUsers(setUsers)
     fetchUserProfile(navigate, setUserProfile);
     fetchPendingRequests();
-    fetchOutgoingRequests();
+    fetchOutgoingRequests(setOutgoingRequests)
     fetchAcceptedRooms();
   };
 
