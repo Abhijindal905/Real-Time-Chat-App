@@ -123,11 +123,10 @@ def send_requests(request):
     except User.DoesNotExist:
         return Response({"error": "User does not exist"}, status=status.HTTP_404_NOT_FOUND)
     
-    if ChatRoom.objects.filter(sender=request.user, receiver=receiver).exists():
-        return Response({"message": "Request already sent"}, status=status.HTTP_400_BAD_REQUEST)
-    
-    if ChatRoom.objects.filter(sender=receiver, receiver=request.user).exists():
-        return Response({"message": "User has already sent you a request"}, status=status.HTTP_400_BAD_REQUEST)
+    if ChatRoom.objects.filter(
+    models.Q(sender=request.user, receiver=receiver) | models.Q(sender=receiver, receiver=request.user)).exists():
+        return Response({"message": "Chat request already exists."}, status=400)
+
 
     
     room_name = f"{request.user.username}_{receiver_username}"
@@ -170,6 +169,7 @@ def pending_requests(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def accept_request(request):
+    print("Incoming request data:", request.data) 
     room_id = request.data.get('room_id')  # 👈 Use room_id instead of room_name
 
     if not room_id:
