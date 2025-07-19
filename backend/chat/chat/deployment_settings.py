@@ -48,7 +48,7 @@ DATABASES = {
 
 # ✅ CORS settings
 CORS_ALLOWED_ORIGINS = [
-    "https://real-time-chat-app-frontend-eu0j.onrender.com",
+    "https://chat-app-61j5.onrender.com",
 ]
 
 CORS_ALLOW_CREDENTIALS = True 
