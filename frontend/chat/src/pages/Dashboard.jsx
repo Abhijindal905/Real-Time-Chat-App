@@ -3,6 +3,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { fetchUserProfile } from "../Components/FetchUserProfile";
 import ProfileImageFetcher from "../Components/ProfileImageFetcher";
+import { fetchUsers } from "../Helpers/FetchUser";
+import { fetchOutgoingRequests } from "../Helpers/FetchOutgoingRequest";
 
 function Dashboard() {
   const [users, setUsers] = useState([]);
@@ -12,25 +14,9 @@ function Dashboard() {
   const [acceptedRooms, setAcceptedRooms] = useState([]);
   const navigate = useNavigate();
 
-  const fetchUsers = async () => {
-    try {
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}list_users/`);
-      setUsers(res.data);
-    } catch (error) {
-      console.error("Error fetching users", error);
-    }
-  };
+  fetchUsers(setUsers)
 
-  const fetchOutgoingRequests = async () => {
-    try {
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}outgoing_requests/`, {
-        headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
-      });
-      setOutgoingRequests(res.data);
-    } catch (error) {
-      console.error("Error fetching outgoing requests", error);
-    }
-  };
+  fetchOutgoingRequests(setOutgoingRequests)
 
   const handleSendRequest = async (receiverUsername) => {
     try {
