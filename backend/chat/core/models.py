@@ -12,8 +12,8 @@ class UserProfile(models.Model):
 
 
 class ChatRoom(models.Model):
-    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_requests', null=True, blank=True)
-    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='recieved_requests', null=True, blank=True)
-    name = models.CharField(max_length=100, unique=True, null=True, blank=True)
-    is_accepted = models.BooleanField(default=False)
+    sender_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_requests', null=True, blank=True)
+    receiver_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='recieved_requests', null=True, blank=True)
+    room_name = models.CharField(max_length=100, unique=True, null=True, blank=True)
+    is_both_accepted = models.BooleanField(default=False)
     

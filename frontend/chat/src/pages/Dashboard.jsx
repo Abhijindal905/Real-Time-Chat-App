@@ -102,23 +102,19 @@ function Dashboard() {
     fetchOutgoingRequests();
     fetchAcceptedRooms();
   };
-  const getRoomId = (username) => {
-      const room =
-        acceptedRooms.find(
-          (r) =>
-            (r.sender === username && r.receiver === userProfile?.username) ||
-            (r.receiver === username && r.sender === userProfile?.username)
-        ) ||
-        pendingRequests.find(
-          (r) => r.sender === username && r.receiver === userProfile?.username
-        ) ||
-        outgoingRequests.find(
-          (r) => r.receiver === username && r.sender === userProfile?.username
-        );
 
-      return room?.id;
-    };
-  
+  const getRoomId = (username) => {
+    const accepted = acceptedRooms.find(
+      (r) => r.friend_username === username
+    );
+    const pending = pendingRequests.find(
+      (r) => r.sender === username
+    );
+    const outgoing = outgoingRequests.find(
+      (r) => r.receiver === username
+    );
+    return accepted?.id || pending?.id || outgoing?.id;
+  };
 
   const isRequestSent = (username) =>
     outgoingRequests.some((r) => r.receiver === username);
@@ -129,7 +125,6 @@ function Dashboard() {
   const isRequestAccepted = (username) =>
     acceptedRooms.some((r) => r.friend_username === username);
   
-
   useEffect(() => {
     fetchAll();
   }, []);

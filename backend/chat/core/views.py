@@ -123,33 +123,32 @@ def send_requests(request):
     except User.DoesNotExist:
         return Response({"error": "User does not exist"}, status=status.HTTP_404_NOT_FOUND)
     
-    if ChatRoom.objects.filter(
-    models.Q(sender=request.user, receiver=receiver) | models.Q(sender=receiver, receiver=request.user)).exists():
+    if ChatRoom.objects.filter(models.Q(sender_user=request.user, receiver_user=receiver) | models.Q(sender_user=receiver, receiver_user=request.user)).exists():
         return Response({"message": "Chat request already exists."}, status=400)
 
 
     
     room_name = f"{request.user.username}_{receiver_username}"
     room = ChatRoom.objects.create(
-        sender = request.user,
-        receiver = receiver,
-        name = room_name,
-        is_accepted = False
+        sender_user = request.user,
+        receiver_user = receiver,
+        room_name = room_name,
+        is_both_accepted = False
     )
 
     return Response({
         "id": room.id,
-        "sender": room.sender.username,
-        "receiver": room.receiver.username,
-        "room_name": room.name,
-        "is_accepted": room.is_accepted,
+        "sender": room.sender_user.username,
+        "receiver": room.receiver_user.username,
+        "room_name": room.room_name,
+        "is_accepted": room.is_bothaccepted,
     }, status=status.HTTP_201_CREATED)
 
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def pending_requests(request):
-    rooms = ChatRoom.objects.filter(receiver=request.user, is_accepted = False)
+    rooms = ChatRoom.objects.filter(receiver_user=request.user, is_both_accepted = False)
 
     data = []
     
@@ -157,9 +156,9 @@ def pending_requests(request):
         data.append(
             {
                 "id": room.id,
-                "sender": room.sender.username,
-                "room_name": room.name,
-                "is_accepted": room.is_accepted,
+                "sender": room.sender_user.username,
+                "room_name": room.room_name,
+                "is_accepted": room.is_both_accepted,
             }
         )
     
@@ -176,11 +175,11 @@ def accept_request(request):
         return Response({"error": "room_id is required"}, status=400)
 
     try:
-        room = ChatRoom.objects.get(id=room_id, receiver=request.user)
+        room = ChatRoom.objects.get(id=room_id, receiver_user=request.user)
     except ChatRoom.DoesNotExist:
         return Response({"error": "Request not found"}, status=404)
 
-    room.is_accepted = True
+    room.is_both_accepted = True
     room.save()
 
     return Response({"message": "Request accepted successfully"}, status=200)
@@ -190,14 +189,14 @@ def accept_request(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def outgoing_requests(request):
-    rooms = ChatRoom.objects.filter(sender=request.user, is_accepted=False)
+    rooms = ChatRoom.objects.filter(sender_user=request.user, is_both_ccepted=False)
 
     data = [
         {
             "id": room.id,
-            "receiver": room.receiver.username,
-            "room_name": room.name,
-            "is_accepted": room.is_accepted,
+            "receiver": room.receiver_user.username,
+            "room_name": room.room_name,
+            "is_accepted": room.is_both_accepted,
         }
         for room in rooms
     ]
@@ -208,15 +207,15 @@ def outgoing_requests(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def accepted_rooms(request):
-    rooms = ChatRoom.objects.filter(is_accepted=True).filter(sender=request.user) | ChatRoom.objects.filter(is_accepted=True,receiver=request.user)
+    rooms = ChatRoom.objects.filter(is_both_accepted=True).filter(sender_user=request.user) | ChatRoom.objects.filter(is_both_accepted=True,receiver_user=request.user)
 
     data = []
     for room in rooms:
         data.append( 
             {
                 "id": room.id,
-                "room_name": room.name,
-                "friend_username": room.receiver.username if room.sender == request.user else room.sender.username,
+                "room_name": room.room_name,
+                "friend_username": room.receiver_user.username if room.sender_user == request.user else room.sender_user.username,
             }
         )
         
@@ -230,7 +229,7 @@ def decline_request(request):
         return Response({"error": "room_id is required"}, status=400)
 
     try:
-        room = ChatRoom.objects.get(id=room_id, receiver=request.user, is_accepted=False)
+        room = ChatRoom.objects.get(id=room_id, receiver_user=request.user, is_both_accepted=False)
         room.delete()
         return Response({"message": "Request declined and deleted."})
     except ChatRoom.DoesNotExist:
