@@ -246,4 +246,25 @@ def delete_account(request):
 
 
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_other_user_profile(request, room_name):
+    username = request.user.username
+    try:
+        room = ChatRoom.objects.get(room_name=room_name)
 
+        # Determine who the other user is
+        if room.sender_user.username == username:
+            other_user = room.receiver_user
+        else:
+            other_user = room.sender_user
+
+        profile = UserProfile.objects.get(user=other_user)
+        return Response({
+            "username": other_user.username,
+            "profile_image": request.build_absolute_uri(profile.profile_image.url)
+        })
+    except ChatRoom.DoesNotExist:
+        return Response({"error": "Chat room not found."}, status=404)
+    except UserProfile.DoesNotExist:
+        return Response({"error": "User profile not found."}, status=404)
