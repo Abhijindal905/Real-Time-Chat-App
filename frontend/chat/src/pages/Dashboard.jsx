@@ -22,7 +22,6 @@ function Dashboard() {
   const [pendingRequests, setPendingRequests] = useState([]);
   const [outgoingRequests, setOutgoingRequests] = useState([]);
   const [acceptedRooms, setAcceptedRooms] = useState([]);
-
   const navigate = useNavigate();
 
   const fetchAll = () => {
@@ -54,23 +53,31 @@ function Dashboard() {
   }, []);
 
   return (
-    <div className="min-h-screen max-w-5xl mx-auto p-4 md:p-8">
-      {/* Profile Section */}
-      <div className="flex items-center gap-4 mb-6">
-        <ProfileImageFetcher size={50} />
-        <h1 className="text-3xl font-bold text-green-700">
-          👋 Welcome, {userProfile?.username || "User"}
-        </h1>
-      </div>
+    <div className="min-h-screen bg-gray-50 p-6">
+      {/* Header */}
+      <header className="flex justify-between items-center mb-8">
+        <div className="flex items-center space-x-4">
+          <ProfileImageFetcher size={50} />
+          <h1 className="text-3xl font-bold text-gray-800">
+            Welcome, <span className="text-green-600">{userProfile?.username || "User"}</span>
+          </h1>
+        </div>
+        <button
+          onClick={() => navigate("/profile")}
+          className="bg-white border border-gray-300 px-4 py-2 rounded-lg hover:bg-gray-100 transition"
+        >
+          View Profile
+        </button>
+      </header>
 
-      {/* User List Section */}
-      <div className="bg-white shadow-lg rounded-lg p-6">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-4">Available Users</h2>
+      {/* Users Section */}
+      <section className="max-w-6xl mx-auto bg-white shadow-md rounded-xl p-6">
+        <h2 className="text-2xl font-semibold text-gray-800 mb-6">📋 Available Users</h2>
 
         {users.length === 0 ? (
-          <p className="text-gray-500">No users found.</p>
+          <p className="text-gray-500 text-center">No users found.</p>
         ) : (
-          <ul className="space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {users
               .filter((user) => user.username !== userProfile?.username)
               .map((user) => {
@@ -78,64 +85,62 @@ function Dashboard() {
                 const roomId = getRoomId(username);
 
                 return (
-                  <li
+                  <div
                     key={user.id}
-                    className="flex flex-col sm:flex-row sm:items-center justify-between border p-4 rounded-lg bg-green-50"
+                    className="bg-green-50 hover:shadow-xl transition rounded-xl p-5 flex flex-col items-center text-center"
                   >
-                    <div className="flex items-center gap-4">
-                      <img
-                        src={user.profile_image || "/default-profile.png"}
-                        alt="Profile"
-                        className="w-16 h-16 rounded-full border-2 border-green-600"
-                      />
-                      <span className="text-lg font-semibold">{username}</span>
-                    </div>
+                    <img
+                      src={user.profile_image || "/default-profile.png"}
+                      alt={username}
+                      className="w-20 h-20 rounded-full border-2 border-green-500 object-cover mb-3"
+                    />
+                    <h3 className="text-lg font-semibold text-gray-800">{username}</h3>
 
-                    <div className="flex gap-2 mt-3 sm:mt-0">
+                    <div className="mt-4 w-full flex flex-col gap-2">
                       {isRequestAccepted(username) ? (
                         <button
-                          className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-800"
+                          className="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition"
                           onClick={() => navigate(`/chat/${roomId}`)}
                         >
-                          Chat
+                          💬 Chat
                         </button>
                       ) : isRequestSent(username) ? (
                         <button
                           disabled
-                          className="bg-gray-400 text-white px-4 py-2 rounded cursor-not-allowed"
+                          className="w-full bg-gray-400 text-white py-2 rounded-lg cursor-not-allowed"
                         >
-                          Request Sent
+                          ✅ Request Sent
                         </button>
                       ) : isRequestIncoming(username) ? (
                         <>
                           <button
-                            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-800"
+                            className="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition"
                             onClick={() => handleAccept(roomId, fetchAll)}
                           >
-                            Accept
+                            ✅ Accept
                           </button>
                           <button
-                            className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-800"
-                            onClick={() => handleDecline(roomId, () => fetchPendingRequests(setPendingRequests))}
+                            className="w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition"
+                            onClick={() => handleDecline(roomId, fetchAll)}
                           >
-                            Decline
+                            ❌ Decline
                           </button>
                         </>
                       ) : (
                         <button
-                          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-800"
-                          onClick={() => handleSendRequest(username, () => fetchOutgoingRequests(setOutgoingRequests))}
+                          className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
+                          onClick={() => handleSendRequest(username, fetchAll)}
                         >
-                          Send Request
+                          ➕ Send Request
                         </button>
                       )}
                     </div>
-                  </li>
+                  </div>
                 );
               })}
-          </ul>
+          </div>
         )}
-      </div>
+      </section>
     </div>
   );
 }
