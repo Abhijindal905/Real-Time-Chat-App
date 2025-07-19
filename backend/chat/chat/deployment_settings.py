@@ -8,6 +8,7 @@ from corsheaders.defaults import default_headers
 ALLOWED_HOSTS = ['chat-app-61j5.onrender.com']
 
 CSRF_TRUSTED_ORIGINS = [
+    "https://real-time-chat-app-frontend-eu0j.onrender.com",
     f"https://{os.environ.get('RENDER_EXTERNAL_HOSTNAME')}"
 ]
 
