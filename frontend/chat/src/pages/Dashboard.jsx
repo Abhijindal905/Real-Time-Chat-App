@@ -1,10 +1,20 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { fetchUserProfile } from "../Components/FetchUserProfile";
 import ProfileImageFetcher from "../Components/ProfileImageFetcher";
-import { fetchUsers } from "../Helpers/FetchUser";
-import { fetchOutgoingRequests } from "../Helpers/FetchOutgoingRequest";
+
+import {
+  fetchUsers,
+  fetchOutgoingRequests,
+  fetchPendingRequests,
+  fetchAcceptedRooms,
+} from "../Helpers/UserHelpers";
+
+import {
+  handleSendRequest,
+  handleAccept,
+  handleDecline,
+} from "../Helpers/RequestActions";
 
 function Dashboard() {
   const [users, setUsers] = useState([]);
@@ -12,90 +22,21 @@ function Dashboard() {
   const [pendingRequests, setPendingRequests] = useState([]);
   const [outgoingRequests, setOutgoingRequests] = useState([]);
   const [acceptedRooms, setAcceptedRooms] = useState([]);
+
   const navigate = useNavigate();
 
-  const handleSendRequest = async (receiverUsername) => {
-    try {
-      await axios.post(`${import.meta.env.VITE_API_URL}send_requests/`, {
-        receiver_username: receiverUsername,
-      }, {
-        headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
-      });
-      alert("Request Sent!");
-      fetchOutgoingRequests();
-    } catch (error) {
-      alert(error.response?.data?.message || "Error Sending Request");
-    }
-  };
-
-  const handleAccept = async (roomId) => {
-    try {
-      await axios.post(`${import.meta.env.VITE_API_URL}accept_request/`, {
-        room_id: roomId,
-      }, {
-        headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
-      });
-      alert("Request Accepted");
-      fetchAll();
-    } catch (error) {
-      alert("Error accepting request");
-    }
-  };
-
-  const handleDecline = async (roomId) => {
-    try {
-      await axios.post(`${import.meta.env.VITE_API_URL}decline_request/`, {
-        room_id: roomId,
-      }, {
-        headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
-      });
-      alert("Request Declined");
-      fetchPendingRequests();
-    } catch (error) {
-      alert("Error declining request");
-    }
-  };
-
-  const fetchPendingRequests = async () => {
-    try {
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}pending_requests/`, {
-        headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
-      });
-      setPendingRequests(res.data);
-    } catch (error) {
-      console.error("Error fetching pending requests", error);
-    }
-  };
-
-  const fetchAcceptedRooms = async () => {
-    try {
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}accepted_rooms/`, {
-        headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
-      });
-      setAcceptedRooms(res.data);
-    } catch (error) {
-      console.error("Error fetching accepted rooms", error);
-    }
-  };
-
   const fetchAll = () => {
-    fetchUsers(setUsers)
+    fetchUsers(setUsers);
     fetchUserProfile(navigate, setUserProfile);
-    fetchPendingRequests();
-    fetchOutgoingRequests(setOutgoingRequests)
-    fetchAcceptedRooms();
+    fetchPendingRequests(setPendingRequests);
+    fetchOutgoingRequests(setOutgoingRequests);
+    fetchAcceptedRooms(setAcceptedRooms);
   };
 
   const getRoomId = (username) => {
-    const accepted = acceptedRooms.find(
-      (r) => r.friend_username === username
-    );
-    const pending = pendingRequests.find(
-      (r) => r.sender === username
-    );
-    const outgoing = outgoingRequests.find(
-      (r) => r.receiver === username
-    );
+    const accepted = acceptedRooms.find((r) => r.friend_username === username);
+    const pending = pendingRequests.find((r) => r.sender === username);
+    const outgoing = outgoingRequests.find((r) => r.receiver === username);
     return accepted?.id || pending?.id || outgoing?.id;
   };
 
@@ -107,7 +48,7 @@ function Dashboard() {
 
   const isRequestAccepted = (username) =>
     acceptedRooms.some((r) => r.friend_username === username);
-  
+
   useEffect(() => {
     fetchAll();
   }, []);
@@ -169,13 +110,13 @@ function Dashboard() {
                         <>
                           <button
                             className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-800"
-                            onClick={() => handleAccept(roomId)}
+                            onClick={() => handleAccept(roomId, fetchAll)}
                           >
                             Accept
                           </button>
                           <button
                             className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-800"
-                            onClick={() => handleDecline(roomId)}
+                            onClick={() => handleDecline(roomId, () => fetchPendingRequests(setPendingRequests))}
                           >
                             Decline
                           </button>
@@ -183,7 +124,7 @@ function Dashboard() {
                       ) : (
                         <button
                           className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-800"
-                          onClick={() => handleSendRequest(username)}
+                          onClick={() => handleSendRequest(username, () => fetchOutgoingRequests(setOutgoingRequests))}
                         >
                           Send Request
                         </button>
