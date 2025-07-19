@@ -236,5 +236,14 @@ def decline_request(request):
         return Response({"message": "Request not found."}, status=404)
 
 
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+
+def delete_account(request):
+    user = request.user
+    user.delete()
+    return Response({"detail": "Account Deleted"}, status=status.HTTP_204_NO_CONTENT)
+
+
 
 

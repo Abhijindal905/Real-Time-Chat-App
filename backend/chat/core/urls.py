@@ -15,6 +15,6 @@ urlpatterns = [
     path('accept_request/', accept_request, name="accept_request"),
     path('outgoing_requests/', outgoing_requests, name='outgoing_requests'),
     path('accepted_rooms/', accepted_rooms, name='accepted_rooms'),
-    path('decline_request/', decline_request, name="decline_request")
-
+    path('decline_request/', decline_request, name="decline_request"),
+    path('delete_account/', delete_account, name="delete_account"),
 ]
