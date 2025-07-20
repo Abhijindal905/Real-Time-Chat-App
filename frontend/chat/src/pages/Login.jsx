@@ -59,18 +59,19 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-      <div className="w-full max-w-5xl bg-white shadow-2xl rounded-2xl grid grid-cols-1 md:grid-cols-2 overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-[#e0f7f1] to-[#d0f0ff] flex items-center justify-center p-4">
+      <div className="backdrop-blur-xl bg-white/80 w-full max-w-5xl rounded-3xl shadow-2xl overflow-hidden grid grid-cols-1 md:grid-cols-2">
+
         {/* Left Section */}
         <div className="bg-[#40b299] p-10 flex flex-col justify-center items-center text-white space-y-6">
-          <h1 className="text-4xl font-bold text-center">Welcome Again 👋</h1>
+          <h1 className="text-4xl font-bold text-center drop-shadow-xl">Welcome Again 👋</h1>
           <p className="text-lg text-center">Gupshup Chat App</p>
-          <img src="/images/talking-icon.svg" alt="Chat Icon" className="w-32" />
+          <img src="/images/talking-icon.svg" alt="Chat Icon" className="w-32 drop-shadow-md" />
         </div>
 
         {/* Right Section */}
-        <div className="p-8 md:p-12">
-          <h2 className="text-3xl font-semibold text-center text-[#40b299] mb-6">Login to Your Account</h2>
+        <div className="p-8 md:p-12 bg-white/70">
+          <h2 className="text-3xl font-bold text-center text-[#40b299] mb-6">Login to Your Account</h2>
 
           {error && <p className="text-red-500 text-center mb-4">{error}</p>}
           {success && <p className="text-green-500 text-center mb-4">{success}</p>}
@@ -88,7 +89,7 @@ function Login() {
                 placeholder="Username"
                 value={formData.username}
                 onChange={handleChange}
-                className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#40b299]"
+                className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-[#40b299]"
                 required
               />
 
@@ -98,13 +99,13 @@ function Login() {
                 placeholder="Password"
                 value={formData.password}
                 onChange={handleChange}
-                className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#40b299]"
+                className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-[#40b299]"
                 required
               />
 
               <button
                 type="submit"
-                className="w-full bg-[#40b299] text-white py-3 rounded-md hover:bg-[#369f85] transition duration-300 font-semibold"
+                className="w-full bg-[#40b299] text-white py-3 rounded-xl font-semibold hover:bg-[#369f85] transition duration-300 shadow-md"
               >
                 Login
               </button>
@@ -113,7 +114,7 @@ function Login() {
 
           {!loading && (
             <div className="mt-6 text-center">
-              <p className="text-sm text-gray-600">New here?</p>
+              <p className="text-sm text-gray-700">New here?</p>
               <button
                 onClick={() => navigate("/")}
                 className="mt-2 text-[#40b299] font-semibold hover:underline"
