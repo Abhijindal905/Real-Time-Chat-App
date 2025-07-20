@@ -11,7 +11,6 @@ function ChatPage() {
   const bottomRef = useRef();
   const username = localStorage.getItem("username");
 
-  // WebSocket setup
   useEffect(() => {
     const ws = new WebSocket(`${import.meta.env.VITE_WS_URL}${roomName.trim()}/`);
 
@@ -26,7 +25,6 @@ function ChatPage() {
     return () => ws.close();
   }, [roomName]);
 
-  // Fetch profile
   useEffect(() => {
     const fetchOtherUser = async () => {
       try {
@@ -54,46 +52,48 @@ function ChatPage() {
   };
 
   return (
-    <div className="w-full h-screen bg-gradient-to-br from-green-100 to-blue-100 flex justify-center items-center px-2">
-      <div className="w-full max-w-3xl h-[90vh] flex flex-col bg-white rounded-2xl shadow-xl overflow-hidden">
+    <div className="w-full h-screen bg-gradient-to-br from-green-100 to-blue-100 flex justify-center items-center px-4">
+      <div className="w-full max-w-4xl h-[90vh] flex flex-col bg-white rounded-3xl shadow-2xl overflow-hidden">
 
-        {/* Header */}
-        <div className="flex items-center gap-4 px-6 py-4 bg-gradient-to-r from-green-500 to-blue-500 text-white shadow">
+        {/* Chat Header */}
+        <div className="flex items-center gap-4 px-6 py-4 bg-gradient-to-r from-green-500 to-blue-500 text-white shadow-md">
           {otherUserProfile ? (
             <>
               <img
-                src={otherUserProfile.profile_image}
-                alt="avatar"
-                className="w-12 h-12 rounded-full border-2 border-white shadow-lg"
+                src={otherUserProfile.profile_image || "/default-profile.png"}
+                alt="User Avatar"
+                className="w-14 h-14 rounded-full border-2 border-white shadow"
               />
-              <div className="flex flex-col">
-                <h2 className="font-bold text-lg">{otherUserProfile.username}</h2>
-                <span className="text-sm opacity-80">You are chatting with them</span>
+              <div>
+                <h2 className="text-lg font-semibold">{otherUserProfile.username}</h2>
+                <p className="text-sm text-white/80">You're connected</p>
               </div>
             </>
           ) : (
-            <span className="text-white text-lg font-medium">Loading user...</span>
+            <p className="text-white text-lg font-medium">Loading...</p>
           )}
         </div>
 
-        {/* Messages */}
-        <div className="flex-1 overflow-y-auto px-4 py-4 bg-gray-50 space-y-3">
-          {messages.map((msg, index) => {
+        {/* Message Area */}
+        <div className="flex-1 px-5 py-4 overflow-y-auto bg-gray-50 space-y-4">
+          {messages.map((msg, i) => {
             const isSender = msg.sender === username;
             return (
               <div
-                key={index}
+                key={i}
                 className={`flex ${isSender ? "justify-end" : "justify-start"}`}
               >
                 <div
-                  className={`max-w-[70%] px-4 py-2 rounded-2xl text-sm shadow-sm transition-all duration-300 ${
+                  className={`rounded-2xl px-4 py-2 text-sm shadow-md max-w-[70%] break-words whitespace-pre-line ${
                     isSender
                       ? "bg-green-500 text-white rounded-br-none"
-                      : "bg-white text-gray-800 border rounded-bl-none"
+                      : "bg-white border border-gray-300 text-gray-800 rounded-bl-none"
                   }`}
                 >
-                  <p className="break-words whitespace-pre-line">{msg.message}</p>
-                  <p className="text-[11px] text-right mt-1 opacity-60">@{msg.sender}</p>
+                  <p>{msg.message}</p>
+                  <p className="text-xs text-right mt-1 text-white/70">
+                    @{msg.sender}
+                  </p>
                 </div>
               </div>
             );
@@ -101,21 +101,21 @@ function ChatPage() {
           <div ref={bottomRef} />
         </div>
 
-        {/* Input */}
-        <div className="px-4 py-3 bg-white border-t flex gap-2">
+        {/* Message Input */}
+        <div className="border-t px-4 py-3 bg-white flex items-center gap-3">
           <input
             type="text"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleSend()}
-            placeholder="Type a message..."
-            className="flex-1 px-4 py-2 text-sm border rounded-full focus:outline-none focus:ring-2 focus:ring-green-400"
+            placeholder="Type something..."
+            className="flex-1 px-4 py-2 rounded-full border focus:outline-none focus:ring-2 focus:ring-green-400 shadow-sm text-sm"
           />
           <button
             onClick={handleSend}
-            className="bg-gradient-to-r from-green-500 to-blue-500 text-white px-4 py-2 rounded-full text-sm font-semibold shadow hover:opacity-90 transition"
+            className="bg-gradient-to-r from-green-500 to-blue-500 hover:opacity-90 transition text-white font-semibold px-5 py-2 rounded-full shadow"
           >
-            Send
+            Send 🚀
           </button>
         </div>
       </div>
