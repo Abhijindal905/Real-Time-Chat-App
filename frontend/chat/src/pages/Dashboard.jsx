@@ -53,13 +53,13 @@ function Dashboard() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen pt-20 px-4 md:px-8 bg-gradient-to-br from-green-100 via-white to-green-100">
       {/* Header */}
-      <header className="flex justify-between items-center mb-8">
+      <header className="flex justify-between items-center mb-8 max-w-6xl mx-auto">
         <div className="flex items-center space-x-4">
           <ProfileImageFetcher size={50} />
           <h1 className="text-3xl font-bold text-gray-800">
-            Welcome, <span className="text-green-600">{userProfile?.username || "User"}</span>
+            Welcome, <span className="text-green-700">{userProfile?.username || "User"}</span>
           </h1>
         </div>
         <button
@@ -71,7 +71,7 @@ function Dashboard() {
       </header>
 
       {/* Users Section */}
-      <section className="max-w-6xl mx-auto bg-white shadow-md rounded-xl p-6">
+      <section className="max-w-6xl mx-auto bg-white shadow-xl rounded-xl p-6">
         <h2 className="text-2xl font-semibold text-gray-800 mb-6">📋 Available Users</h2>
 
         {users.length === 0 ? (
