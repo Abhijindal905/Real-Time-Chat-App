@@ -1,25 +1,63 @@
-# Real-Time-Chat-App
-This is the real time chat project using the react and django
+# 💬 Real-Time Chat App
 
-
-# Real-Time Chat Application 💬 (Deployed on Render)
-
-This is a real-time chat application built with **React (frontend)** and **Django (backend)**. It supports user registration, profile images, friend requests, and real-time one-on-one chat using WebSockets.
+This is a full-stack real-time chat application built using **React** (frontend) and **Django** (backend). It supports user authentication, profile image upload, friend requests, and one-on-one real-time messaging using WebSockets via Django Channels.
 
 ---
 
 ## 🌐 Live Demo
 
-🔗 [Visit Live App][(https://real-time-chat-app-frontend-eu0j.onrender.com/)](https://real-time-chat-app-frontend-eu0j.onrender.com)
-
-> Backend API hosted at: [(`https://chat-app-61j5.onrender.com`)](https://chat-app-61j5.onrender.com)
+- 🔗 Frontend: [https://real-time-chat-app-frontend-eu0j.onrender.com](https://real-time-chat-app-frontend-eu0j.onrender.com)  
+- 🔗 Backend API: [https://chat-app-61j5.onrender.com](https://chat-app-61j5.onrender.com)
 
 ---
 
-## 🔐 Demo Credentials (for testing)
+## 🔐 Demo Login Credentials
 
-You can use these test accounts to explore the app without registering:
+> You can use the following demo account to explore the app:
 
-Username: huda
-Password: Huda@123
+- **Username:** `huda`  
+- **Password:** `Huda@123`
+
+---
+
+## 🚀 Features
+
+- 🔐 User Registration & JWT Authentication  
+- 🖼️ Upload Profile Picture  
+- 👫 Send & Accept Friend Requests  
+- 💬 Real-Time Messaging via WebSockets  
+- 🎨 Responsive UI built with Tailwind CSS  
+- 🌐 Hosted on Render (both frontend & backend)
+
+---
+
+## 🧰 Tech Stack
+
+| Layer       | Technology               |
+|-------------|---------------------------|
+| Frontend    | React + Vite, Tailwind CSS |
+| Backend     | Django, Django REST Framework |
+| Real-Time   | Django Channels + WebSockets |
+| Auth        | JWT Authentication        |
+| Hosting     | Render.com                |
+
+---
+
+Project Structure : 
+
+real-time-chat-app/
+├── backend/
+│   └── chat/
+│       ├── manage.py
+│       ├── chat/           # Django settings + routing
+│       ├── core/           # Models, views, urls
+│       └── requirements.txt
+
+├── frontend/
+│   └── chat/               # React frontend with Vite
+│       ├── src/
+│       ├── public/
+│       └── package.json
+
+├── README.md
 
