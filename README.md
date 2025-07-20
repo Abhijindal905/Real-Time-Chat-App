@@ -10,9 +10,9 @@ This is a real-time chat application built with **React (frontend)** and **Djang
 
 ## 🌐 Live Demo
 
-🔗 [Visit Live App](https://your-frontend-url.onrender.com)
+🔗 [Visit Live App](https://real-time-chat-app-frontend-eu0j.onrender.com/)
 
-> Backend API hosted at: `https://your-backend-url.onrender.com/api/`
+> Backend API hosted at: (`https://chat-app-61j5.onrender.com`)
 
 ---
 
