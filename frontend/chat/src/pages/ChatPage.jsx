@@ -52,8 +52,8 @@ function ChatPage() {
   };
 
   return (
-    <div className="w-full h-screen bg-gradient-to-br from-green-100 to-blue-100 flex justify-center items-center px-4">
-      <div className="w-full max-w-4xl h-[90vh] flex flex-col bg-white rounded-3xl shadow-2xl overflow-hidden">
+    <div className="pt-16 h-[calc(100vh-64px)] w-full bg-gradient-to-br from-green-100 to-blue-100 flex justify-center items-center px-4">
+      <div className="w-full max-w-4xl flex flex-col bg-white rounded-3xl shadow-2xl overflow-hidden">
 
         {/* Chat Header */}
         <div className="flex items-center gap-4 px-6 py-4 bg-gradient-to-r from-green-500 to-blue-500 text-white shadow-md">
