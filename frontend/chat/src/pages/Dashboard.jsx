@@ -62,12 +62,6 @@ function Dashboard() {
             Welcome, <span className="text-green-700">{userProfile?.username || "User"}</span>
           </h1>
         </div>
-        <button
-          onClick={() => navigate("/profile")}
-          className="bg-white border border-gray-300 px-4 py-2 rounded-lg hover:bg-gray-100 transition"
-        >
-          View Profile
-        </button>
       </header>
 
       {/* Users Section */}
